@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useTranslation } from '../../i18n/utils';
+
+const t = useTranslation('en');
+---
+
+<BaseLayout
+  title="Privacy Policy — MarkShelf"
+  description="MarkShelf Privacy Policy. Learn how MarkShelf handles your data with complete transparency."
+  lang="en"
+  currentPath="/privacy/"
+>
+  <section class="pt-28 pb-24 relative">
+    <!-- Background Glow -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-brand-blue/5 blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <!-- Page Header -->
+      <div class="text-center mb-12 fade-in-up">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+          <span class="gradient-text">{t('privacy.title')}</span>
+        </h1>
+        <p class="text-sm text-text-muted">{t('privacy.lastUpdated')}</p>
+      </div>
+
+      <!-- Content -->
+      <div class="glass-card rounded-2xl p-6 sm:p-10 space-y-8 fade-in-up">
+        <p class="text-text-secondary leading-relaxed">{t('privacy.intro')}</p>
+
+        <!-- Section 1 -->
+        <div>
+          <h2 class="text-lg font-semibold text-brand-ice mb-3">{t('privacy.section1.title')}</h2>
+          <p class="text-text-secondary leading-relaxed">{t('privacy.section1.content')}</p>
+        </div>
+
+        <!-- Section 2 -->
+        <div>
+          <h2 class="text-lg font-semibold text-brand-ice mb-3">{t('privacy.section2.title')}</h2>
+          <p class="text-text-secondary leading-relaxed">{t('privacy.section2.content')}</p>
+        </div>
+
+        <!-- Section 3 -->
+        <div>
+          <h2 class="text-lg font-semibold text-brand-ice mb-3">{t('privacy.section3.title')}</h2>
+          <p class="text-text-secondary leading-relaxed">{t('privacy.section3.content')}</p>
+        </div>
+
+        <!-- Section 4 - Permissions -->
+        <div>
+          <h2 class="text-lg font-semibold text-brand-ice mb-3">{t('privacy.section4.title')}</h2>
+          <p class="text-text-secondary leading-relaxed mb-4">{t('privacy.section4.p1')}</p>
+          <ul class="space-y-2.5">
+            {(['bookmarks', 'storage', 'alarms', 'contextMenus', 'tabs', 'scripting'] as const).map((perm) => (
+              <li class="flex items-start gap-3 text-sm text-text-secondary">
+                <span class="mt-1 w-1.5 h-1.5 rounded-full bg-brand-ice shrink-0"></span>
+                <span>
+                  <code class="text-brand-ice font-mono text-xs px-1.5 py-0.5 rounded bg-brand-ice/10">{perm}</code>
+                  {' — '}
+                  {t(`privacy.section4.${perm}`).split(' — ')[1]}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Section 5 -->
+        <div>
+          <h2 class="text-lg font-semibold text-brand-ice mb-3">{t('privacy.section5.title')}</h2>
+          <p class="text-text-secondary leading-relaxed">{t('privacy.section5.content')}</p>
+        </div>
+
+        <!-- Section 6 -->
+        <div>
+          <h2 class="text-lg font-semibold text-brand-ice mb-3">{t('privacy.section6.title')}</h2>
+          <p class="text-text-secondary leading-relaxed">{t('privacy.section6.content')}</p>
+        </div>
+
+        <!-- Section 7 -->
+        <div>
+          <h2 class="text-lg font-semibold text-brand-ice mb-3">{t('privacy.section7.title')}</h2>
+          <p class="text-text-secondary leading-relaxed">{t('privacy.section7.content')}</p>
+        </div>
+
+        <!-- Section 8 -->
+        <div>
+          <h2 class="text-lg font-semibold text-brand-ice mb-3">{t('privacy.section8.title')}</h2>
+          <p class="text-text-secondary leading-relaxed">{t('privacy.section8.content')}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

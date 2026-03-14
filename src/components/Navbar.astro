@@ -1,0 +1,132 @@
+---
+import type { Language } from '../i18n/ui';
+import { useTranslation, getLocalizedPath, getAlternateLang } from '../i18n/utils';
+import { languages } from '../i18n/ui';
+
+interface Props {
+  lang: Language;
+  currentPath?: string;
+}
+
+const { lang, currentPath = '/' } = Astro.props;
+const t = useTranslation(lang);
+const altLang = getAlternateLang(lang);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const navLinks = [
+  { href: getLocalizedPath(lang, '/'), label: t('nav.home') },
+  { href: getLocalizedPath(lang, '/get-started/'), label: t('nav.getStarted') },
+  { href: getLocalizedPath(lang, '/privacy/'), label: t('nav.privacy') },
+  { href: getLocalizedPath(lang, '/donate/'), label: t('nav.donate') },
+];
+---
+
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href={`${base}${getLocalizedPath(lang, '/')}`} class="flex items-center gap-2.5 group">
+        <img
+          src={`${base}/logo.png`}
+          alt="MarkShelf"
+          class="w-8 h-8 rounded-lg transition-transform duration-300 group-hover:scale-110"
+          onerror="this.style.display='none'"
+        />
+        <span class="text-lg font-bold gradient-text">MarkShelf</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-1">
+        {navLinks.map((link) => (
+          <a
+            href={`${base}${link.href}`}
+            class:list={[
+              'px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+              currentPath === link.href.replace(`/${lang}`, '') || (currentPath === '/' && link.href === getLocalizedPath(lang, '/'))
+                ? 'text-brand-ice bg-white/5'
+                : 'text-text-secondary hover:text-text-primary hover:bg-white/5',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+
+        <!-- Language Switcher -->
+        <a
+          href={`${base}${getLocalizedPath(altLang, currentPath)}`}
+          class="ml-3 px-3 py-1.5 rounded-lg text-xs font-semibold border border-brand-ice/20 text-brand-ice hover:bg-brand-ice/10 transition-all duration-200"
+        >
+          {languages[altLang]}
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-white/5 transition-colors"
+        aria-label="Toggle menu"
+      >
+        <svg id="menu-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden pb-4">
+      <div class="flex flex-col gap-1 pt-2 border-t border-white/5">
+        {navLinks.map((link) => (
+          <a
+            href={`${base}${link.href}`}
+            class:list={[
+              'px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
+              currentPath === link.href.replace(`/${lang}`, '') || (currentPath === '/' && link.href === getLocalizedPath(lang, '/'))
+                ? 'text-brand-ice bg-white/5'
+                : 'text-text-secondary hover:text-text-primary hover:bg-white/5',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+        <a
+          href={`${base}${getLocalizedPath(altLang, currentPath)}`}
+          class="px-3.5 py-2.5 rounded-lg text-sm font-medium text-brand-ice hover:bg-brand-ice/10 transition-all duration-200"
+        >
+          🌐 {languages[altLang]}
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu toggle
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    menu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+  });
+
+  // Navbar background on scroll
+  const navbar = document.getElementById('navbar');
+  let lastScroll = 0;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    if (scrollY > 20) {
+      navbar?.classList.add('glass');
+    } else {
+      navbar?.classList.remove('glass');
+    }
+    lastScroll = scrollY;
+  });
+</script>

@@ -1,0 +1,202 @@
+---
+import { Image } from 'astro:assets';
+import type { Language } from '../i18n/ui';
+import { useTranslation } from '../i18n/utils';
+
+import homeImg from '../assets/screenshots/home.png';
+import organizeImg from '../assets/screenshots/orangize.png';
+import exportImg from '../assets/screenshots/export.png';
+import healthcheckImg from '../assets/screenshots/healthcheck.png';
+import settingsProviderImg from '../assets/screenshots/settings-provider.png';
+import settingsSkillsImg from '../assets/screenshots/settings-skills.png';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslation(lang);
+
+const screenshots = [
+  { src: homeImg, alt: t('screenshots.home'), label: t('screenshots.home') },
+  { src: organizeImg, alt: t('screenshots.organize'), label: t('screenshots.organize') },
+  { src: exportImg, alt: t('screenshots.export'), label: t('screenshots.export') },
+  { src: healthcheckImg, alt: t('screenshots.healthcheck'), label: t('screenshots.healthcheck') },
+  { src: settingsProviderImg, alt: t('screenshots.settings-provider'), label: t('screenshots.settings-provider') },
+  { src: settingsSkillsImg, alt: t('screenshots.settings-skills'), label: t('screenshots.settings-skills') },
+];
+---
+
+<section id="screenshots" class="py-24 sm:py-32 relative">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-16 fade-in-up">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+        <span class="gradient-text">{t('screenshots.title')}</span>
+      </h2>
+      <p class="text-text-secondary text-base sm:text-lg max-w-2xl mx-auto">
+        {t('screenshots.subtitle')}
+      </p>
+    </div>
+
+    <!-- Carousel -->
+    <div class="relative fade-in-up">
+      <!-- Carousel Container -->
+      <div id="carousel" class="overflow-hidden rounded-2xl">
+        <div id="carousel-track" class="flex transition-transform duration-500 ease-out">
+          {screenshots.map((shot, i) => (
+            <div class="min-w-full px-2 sm:px-4" data-index={i}>
+              <div
+                class="relative rounded-xl overflow-hidden glow-border cursor-pointer group"
+                data-lightbox={i}
+              >
+                <Image
+                  src={shot.src}
+                  alt={shot.alt}
+                  class="w-full h-auto rounded-xl transition-transform duration-500 group-hover:scale-[1.02]"
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  widths={[640, 960, 1280]}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
+                />
+                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 sm:p-6">
+                  <p class="text-sm sm:text-base text-white/90 font-medium">{shot.label}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button
+        id="carousel-prev"
+        class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all z-10"
+        aria-label="Previous"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        id="carousel-next"
+        class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all z-10"
+        aria-label="Next"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <!-- Dots Indicator -->
+      <div class="flex items-center justify-center gap-2 mt-6">
+        {screenshots.map((_, i) => (
+          <button
+            class:list={[
+              'carousel-dot w-2 h-2 rounded-full transition-all duration-300',
+              i === 0 ? 'bg-brand-ice w-6' : 'bg-white/20 hover:bg-white/40',
+            ]}
+            data-dot={i}
+            aria-label={`Go to screenshot ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox Overlay -->
+  <div id="lightbox" class="lightbox-overlay" role="dialog" aria-modal="true">
+    <button
+      id="lightbox-close"
+      class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
+      aria-label="Close"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[85vh]" />
+  </div>
+</section>
+
+<script>
+  // Carousel
+  const track = document.getElementById('carousel-track') as HTMLElement;
+  const prevBtn = document.getElementById('carousel-prev');
+  const nextBtn = document.getElementById('carousel-next');
+  const dots = document.querySelectorAll('.carousel-dot');
+  const total = dots.length;
+  let current = 0;
+  let autoplayTimer: ReturnType<typeof setInterval>;
+
+  function goTo(index: number) {
+    current = ((index % total) + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('bg-brand-ice', i === current);
+      dot.classList.toggle('w-6', i === current);
+      dot.classList.toggle('bg-white/20', i !== current);
+      dot.classList.toggle('w-2', i !== current);
+    });
+  }
+
+  function startAutoplay() {
+    autoplayTimer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  function resetAutoplay() {
+    clearInterval(autoplayTimer);
+    startAutoplay();
+  }
+
+  prevBtn?.addEventListener('click', () => { goTo(current - 1); resetAutoplay(); });
+  nextBtn?.addEventListener('click', () => { goTo(current + 1); resetAutoplay(); });
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      goTo(Number((dot as HTMLElement).dataset.dot));
+      resetAutoplay();
+    });
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      goTo(diff > 0 ? current + 1 : current - 1);
+      resetAutoplay();
+    }
+  });
+
+  startAutoplay();
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const lightboxClose = document.getElementById('lightbox-close');
+
+  document.querySelectorAll('[data-lightbox]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const img = el.querySelector('img');
+      if (img && lightbox && lightboxImg) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  function closeLightbox() {
+    lightbox?.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  lightboxClose?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>

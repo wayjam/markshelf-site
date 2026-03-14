@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+
+/* MarkShelf Brand - Luminous Syntax Design System */
+@theme {
+  --color-brand-indigo: #344171;
+  --color-brand-blue: #4068BF;
+  --color-brand-ice: #5A9BD6;
+  --color-brand-amber: #E8730A;
+
+  --color-bg-primary: #0B0F1A;
+  --color-bg-secondary: #111827;
+  --color-bg-tertiary: #1A1F33;
+
+  --color-text-primary: #F1F5F9;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+}
+
+/* Brand Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-brand-indigo), var(--color-brand-blue), var(--color-brand-ice));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow Effects */
+.glow-border {
+  box-shadow: 0 0 15px rgba(90, 155, 214, 0.15), 0 0 30px rgba(64, 104, 191, 0.08);
+}
+
+.glow-border-hover:hover {
+  box-shadow: 0 0 20px rgba(90, 155, 214, 0.25), 0 0 40px rgba(64, 104, 191, 0.15);
+}
+
+/* Glass Effect */
+.glass {
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(90, 155, 214, 0.1);
+}
+
+.glass-card {
+  background: rgba(26, 31, 51, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(90, 155, 214, 0.08);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(26, 31, 51, 0.7);
+  border-color: rgba(90, 155, 214, 0.2);
+  box-shadow: 0 0 20px rgba(90, 155, 214, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Hero Background Glow */
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.hero-glow-1 {
+  background: var(--color-brand-blue);
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: pulse-glow 8s ease-in-out infinite;
+}
+
+.hero-glow-2 {
+  background: var(--color-brand-indigo);
+  bottom: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  animation: pulse-glow 10s ease-in-out infinite reverse;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.1; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.2; transform: translateX(-50%) scale(1.1); }
+}
+
+/* Scroll Animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-tertiary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Lightbox */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(90, 155, 214, 0.2);
+}

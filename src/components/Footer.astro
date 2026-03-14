@@ -1,0 +1,62 @@
+---
+import type { Language } from '../i18n/ui';
+import { useTranslation, getLocalizedPath } from '../i18n/utils';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslation(lang);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<footer class="border-t border-white/5 bg-bg-secondary/50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Brand -->
+      <div>
+        <a href={`${base}${getLocalizedPath(lang, '/')}`} class="flex items-center gap-2.5 mb-3">
+          <img
+            src={`${base}/logo.png`}
+            alt="MarkShelf"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display='none'"
+          />
+          <span class="text-base font-bold gradient-text">MarkShelf</span>
+        </a>
+        <p class="text-sm text-text-muted leading-relaxed">
+          {t('footer.description')}
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <h3 class="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-4">
+          {t('footer.nav')}
+        </h3>
+        <ul class="space-y-2.5">
+          <li>
+            <a href={`${base}${getLocalizedPath(lang, '/')}`} class="text-sm text-text-muted hover:text-brand-ice transition-colors">
+              {t('nav.home')}
+            </a>
+          </li>
+          <li>
+            <a href={`${base}${getLocalizedPath(lang, '/privacy/')}`} class="text-sm text-text-muted hover:text-brand-ice transition-colors">
+              {t('nav.privacy')}
+            </a>
+          </li>
+          <li>
+            <a href={`${base}${getLocalizedPath(lang, '/donate/')}`} class="text-sm text-text-muted hover:text-brand-ice transition-colors">
+              {t('nav.donate')}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-10 pt-6 border-t border-white/5 text-center">
+      <p class="text-xs text-text-muted">{t('footer.copyright')}</p>
+    </div>
+  </div>
+</footer>
