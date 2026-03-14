@@ -110,20 +110,16 @@ export const ui = {
     // Donate
     'donate.title': 'Support MarkShelf',
     'donate.subtitle':
-      'MarkShelf is free and open-source. If you find it useful, consider supporting its development.',
+      'MarkShelf is totally free. If you find it useful, consider supporting its development.',
     'donate.thanks': 'Thank you for your support! ❤️',
     'donate.thanks.desc':
       'Your contribution helps us maintain and improve MarkShelf, add new features, and keep it free for everyone.',
-    'donate.github.title': 'GitHub Sponsors',
-    'donate.github.desc': 'Support us through GitHub Sponsors for recurring or one-time donations.',
-    'donate.github.cta': 'Sponsor on GitHub',
     'donate.coffee.title': 'Buy Me a Coffee',
     'donate.coffee.desc': 'Buy us a coffee to fuel late-night coding sessions.',
     'donate.coffee.cta': 'Buy a Coffee',
-    'donate.wechat.title': 'WeChat Pay',
-    'donate.wechat.desc': 'Scan the QR code to donate via WeChat Pay.',
-    'donate.alipay.title': 'Alipay',
-    'donate.alipay.desc': 'Scan the QR code to donate via Alipay.',
+    'donate.crypto.title': 'Cryptocurrency',
+    'donate.crypto.desc': 'Support us with cryptocurrency. Copy the wallet address below.',
+    'donate.crypto.copied': 'Copied!',
 
     // Get Started
     'getStarted.title': 'Get Started',
@@ -252,16 +248,12 @@ export const ui = {
     'donate.thanks': '感谢您的支持！❤️',
     'donate.thanks.desc':
       '您的贡献帮助我们维护和改进 MarkShelf，添加新功能，并让它对所有人保持免费。',
-    'donate.github.title': 'GitHub Sponsors',
-    'donate.github.desc': '通过 GitHub Sponsors 进行定期或一次性捐赠。',
-    'donate.github.cta': '在 GitHub 赞助',
     'donate.coffee.title': 'Buy Me a Coffee',
     'donate.coffee.desc': '请我们喝杯咖啡，为深夜编程补充能量。',
     'donate.coffee.cta': '请喝咖啡',
-    'donate.wechat.title': '微信支付',
-    'donate.wechat.desc': '扫描二维码通过微信支付捐赠。',
-    'donate.alipay.title': '支付宝',
-    'donate.alipay.desc': '扫描二维码通过支付宝捐赠。',
+    'donate.crypto.title': '加密货币',
+    'donate.crypto.desc': '通过加密货币支持我们。复制下方钱包地址。',
+    'donate.crypto.copied': '已复制！',
 
     // Get Started
     'getStarted.title': '开始使用',
