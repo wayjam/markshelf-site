@@ -53,9 +53,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         href={`${base}/get-started/`}
         class="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-brand-amber text-white font-semibold text-sm shadow-lg shadow-brand-amber/20 hover:shadow-brand-amber/40 hover:scale-[1.02] transition-all duration-300"
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
+        <Icon name="heroicons:arrow-down-tray" class="w-5 h-5" />
         {t('hero.cta.getStarted')}
       </a>
     </div>
@@ -64,9 +62,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <div class="mt-16 fade-in-up">
       <div class="inline-flex flex-col items-center gap-2 text-text-muted animate-bounce">
         <span class="text-xs">{lang === 'zh' ? '向下滚动' : 'Scroll Down'}</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
+        <Icon name="heroicons:arrow-long-down" class="w-4 h-4" />
       </div>
     </div>
   </div>

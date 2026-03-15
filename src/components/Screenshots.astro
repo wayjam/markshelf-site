@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import type { Language } from '../i18n/ui';
 import { useTranslation } from '../i18n/utils';
@@ -73,18 +74,14 @@ const screenshots = [
         class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all z-10"
         aria-label="Previous"
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
+        <Icon name="heroicons:chevron-left" class="w-5 h-5" />
       </button>
       <button
         id="carousel-next"
         class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all z-10"
         aria-label="Next"
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
+        <Icon name="heroicons:chevron-right" class="w-5 h-5" />
       </button>
 
       <!-- Dots Indicator -->
@@ -110,9 +107,7 @@ const screenshots = [
       class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
       aria-label="Close"
     >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
+      <Icon name="heroicons:x-mark" class="w-5 h-5" />
     </button>
     <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[85vh]" />
   </div>
