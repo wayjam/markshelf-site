@@ -7,7 +7,7 @@ export const config = {
   stores: {
     chrome: 'https://chromewebstore.google.com/detail/markshelf/dhgghnaealgpkbhlmdgjbpjejgkoafch',
     edge: '#',
-    firefox: 'https://addons.mozilla.org/zh-CN/firefox/addon/markshelf/',
+    firefox: 'https://addons.mozilla.org/en-US/firefox/addon/markshelf/',
   },
 
   // Social links
@@ -29,6 +29,6 @@ export const config = {
 
   // Extension ID (for Chrome Web Store links)
   extension: {
-    chromeId: 'ckpkddmlofjjomanknfmchipiehjkhch',
+    chromeId: 'dhgghnaealgpkbhlmdgjbpjejgkoafch',
   },
 } as const;

@@ -8,38 +8,41 @@ const lang = 'en';
 const t = useTranslation(lang);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
+// Helper: a store link is "available" when it has a real URL (not empty / '#')
+const isAvailable = (url: string) => !!url && url !== '#';
+
 const browsers = [
   {
-    key: 'chrome',
+    key: 'chrome' as const,
     name: t('getStarted.chrome.title'),
-    desc: t('getStarted.chrome.desc'),
-    cta: t('getStarted.chrome.cta'),
     href: config.stores.chrome,
     icon: 'simple-icons:googlechrome',
     iconColor: '#4285F4',
-    available: true,
   },
   {
-    key: 'edge',
+    key: 'edge' as const,
     name: t('getStarted.edge.title'),
-    desc: t('getStarted.edge.desc'),
-    cta: t('getStarted.edge.cta'),
     href: config.stores.edge,
     icon: 'simple-icons:microsoftedge',
     iconColor: '#0078D4',
-    available: true,
   },
   {
-    key: 'firefox',
+    key: 'firefox' as const,
     name: t('getStarted.firefox.title'),
-    desc: t('getStarted.firefox.desc'),
-    cta: t('getStarted.firefox.cta'),
     href: config.stores.firefox,
     icon: 'simple-icons:firefox',
     iconColor: '#FF7139',
-    available: false,
   },
-];
+].map((b) => ({
+  ...b,
+  available: isAvailable(b.href),
+  desc: isAvailable(b.href)
+    ? t(`getStarted.${b.key}.desc`)
+    : t('getStarted.comingSoonDesc'),
+  cta: isAvailable(b.href)
+    ? t(`getStarted.${b.key}.cta`)
+    : t('getStarted.comingSoon'),
+}));
 ---
 
 <BaseLayout
