@@ -5,9 +5,9 @@
 export const config = {
   // Store URLs
   stores: {
-    chrome: 'https://chrome.google.com/webstore',
-    edge: 'https://microsoftedge.microsoft.com/addons',
-    firefox: '#', // Coming soon
+    chrome: 'https://chromewebstore.google.com/detail/markshelf/dhgghnaealgpkbhlmdgjbpjejgkoafch',
+    edge: '#',
+    firefox: 'https://addons.mozilla.org/zh-CN/firefox/addon/markshelf/',
   },
 
   // Social links
