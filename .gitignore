@@ -22,3 +22,8 @@ pnpm-debug.log*
 .idea/
 *.swp
 *.swo
+
+# Agent & tool scratch
+.codebuddy/
+.impeccable/
+.astro/settings.json
