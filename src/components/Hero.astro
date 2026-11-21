@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import type { Language } from '../i18n/ui';
-import { useTranslation } from '../i18n/utils';
+import { useTranslation, getLocalizedPath } from '../i18n/utils';
 import { config } from '../config';
 
 interface Props {
@@ -11,59 +11,497 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslation(lang);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const sampleCards = lang === 'zh'
+  ? [
+      {
+        id: 'card-1',
+        title: 'Local-First Software: You Own Your Data',
+        domain: 'inkandswitch.com',
+        folder: '研究 / 本地优先架构',
+        tags: ['local-first', 'offline-sync'],
+        excerpt: '基于 IndexedDB 与本地快照实现毫秒级检索，离线状态下依然可用。',
+        searchBlob: 'local-first software indexeddb offline sync data ownership crdt 本地 离线 快照',
+        badge: t('drawer.matchSnapshot'),
+        badgeTone: 'emerald',
+      },
+      {
+        id: 'card-2',
+        title: 'Butterick’s Practical Typography',
+        domain: 'practicaltypography.com',
+        folder: '设计 / 排版规范',
+        tags: ['排版', 'typography'],
+        excerpt: '正文行宽控制在 65 字符左右，配合克制的字重对比保证长文阅读体验。',
+        searchBlob: 'practical typography layout reading measure 排版 字体 行距 设计',
+        badge: t('drawer.matchTitle'),
+        badgeTone: 'indigo',
+      },
+      {
+        id: 'card-3',
+        title: 'Model Context Protocol Specification',
+        domain: 'modelcontextprotocol.io',
+        folder: '开发 / Agent 工具',
+        tags: ['agent', 'mcp'],
+        excerpt: '通过本地 Stdio MCP 暴露结构化工具，所有写入请求均需先过人工 Diff 审核。',
+        searchBlob: 'model context protocol agent mcp tools local bridge diff 协议',
+        badge: t('drawer.matchSemantic'),
+        badgeTone: 'amber',
+      },
+      {
+        id: 'card-4',
+        title: 'The Rust Performance Book',
+        domain: 'nnethercote.github.io',
+        folder: '开发 / 系统性能',
+        tags: ['rust', 'profiling'],
+        excerpt: '减少热路径上的堆分配与克隆开销，重构前先用火焰图定位真实瓶颈。',
+        searchBlob: 'rust performance profiling memory allocation 系统编程 性能',
+        badge: t('drawer.matchSnapshot'),
+        badgeTone: 'emerald',
+      },
+    ]
+  : [
+      {
+        id: 'card-1',
+        title: 'Local-First Software: You Own Your Data',
+        domain: 'inkandswitch.com',
+        folder: 'Research / Local-First',
+        tags: ['local-first', 'offline-sync'],
+        excerpt: 'Keep full-text snapshots inside IndexedDB so search stays instant offline with zero cloud lock-in.',
+        searchBlob: 'local-first software indexeddb offline sync data ownership crdt',
+        badge: t('drawer.matchSnapshot'),
+        badgeTone: 'emerald',
+      },
+      {
+        id: 'card-2',
+        title: 'Butterick’s Practical Typography',
+        domain: 'practicaltypography.com',
+        folder: 'Design / Typography',
+        tags: ['typography', 'layout'],
+        excerpt: 'Keep body measure near 65 characters and pair steady line spacing with restrained type contrast.',
+        searchBlob: 'practical typography layout reading measure design fonts',
+        badge: t('drawer.matchTitle'),
+        badgeTone: 'indigo',
+      },
+      {
+        id: 'card-3',
+        title: 'Model Context Protocol Specification',
+        domain: 'modelcontextprotocol.io',
+        folder: 'Dev / AI Tooling',
+        tags: ['agent', 'mcp'],
+        excerpt: 'Connect local agents over Stdio MCP while routing every write through human Diff review.',
+        searchBlob: 'model context protocol agent mcp tools local bridge diff',
+        badge: t('drawer.matchSemantic'),
+        badgeTone: 'amber',
+      },
+      {
+        id: 'card-4',
+        title: 'The Rust Performance Book',
+        domain: 'nnethercote.github.io',
+        folder: 'Dev / Systems',
+        tags: ['rust', 'profiling'],
+        excerpt: 'Avoid unnecessary heap allocations on hot paths and profile with flamegraphs before refactoring.',
+        searchBlob: 'rust performance profiling memory allocation systems',
+        badge: t('drawer.matchSnapshot'),
+        badgeTone: 'emerald',
+      },
+    ];
+
+const sampleDiffs = lang === 'zh'
+  ? [
+      {
+        id: 'diff-1',
+        title: 'Local-First Software: You Own Your Data',
+        from: '书签栏 / 临时阅读',
+        to: '研究 / 本地优先架构',
+        addedTag: '+local-first',
+      },
+      {
+        id: 'diff-2',
+        title: 'Butterick’s Practical Typography',
+        from: '未分类收藏',
+        to: '设计 / 排版规范',
+        addedTag: '+typography',
+      },
+      {
+        id: 'diff-3',
+        title: 'The Rust Performance Book',
+        from: '书签栏 / 稍后看',
+        to: '开发 / 系统性能',
+        addedTag: '+rust',
+      },
+    ]
+  : [
+      {
+        id: 'diff-1',
+        title: 'Local-First Software: You Own Your Data',
+        from: 'Bookmarks Bar / Unsorted',
+        to: 'Research / Local-First',
+        addedTag: '+local-first',
+      },
+      {
+        id: 'diff-2',
+        title: 'Butterick’s Practical Typography',
+        from: 'Other Bookmarks',
+        to: 'Design / Typography',
+        addedTag: '+typography',
+      },
+      {
+        id: 'diff-3',
+        title: 'The Rust Performance Book',
+        from: 'Bookmarks Bar / Later',
+        to: 'Dev / Systems',
+        addedTag: '+rust',
+      },
+    ];
 ---
 
-<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-16">
-  <!-- Background Glows -->
-  <div class="hero-glow hero-glow-1"></div>
-  <div class="hero-glow hero-glow-2"></div>
-
-  <!-- Grid Pattern Overlay -->
-  <div
-    class="absolute inset-0 opacity-[0.03]"
-    style="background-image: linear-gradient(rgba(90,155,214,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(90,155,214,0.3) 1px, transparent 1px); background-size: 60px 60px;"
-  ></div>
-
-  <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
-    <!-- Logo -->
-    <div class="mb-8 fade-in-up">
-      <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-bg-tertiary/50 glow-border">
+    <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+      <div class="inline-flex justify-center mb-5">
         <img
           src={`${base}/logo.png`}
-          alt="MarkShelf Logo"
-          class="w-14 h-14 rounded-xl"
-          onerror="this.parentElement.innerHTML='<span class=\'text-3xl\'>📚</span>'"
+          alt="MarkShelf"
+          width="60"
+          height="60"
+          class="w-[60px] h-[60px] rounded-[16px] shadow-[0_10px_28px_-6px_rgba(37,52,95,0.28)]"
         />
       </div>
-    </div>
 
-    <!-- Title -->
-    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 fade-in-up">
-      <span class="gradient-text">{t('hero.title')}</span>
-    </h1>
-
-    <!-- Subtitle -->
-    <p class="text-base sm:text-lg md:text-xl text-text-secondary leading-relaxed max-w-2xl mx-auto mb-10 fade-in-up">
-      {t('hero.subtitle')}
-    </p>
-
-    <!-- CTA Buttons -->
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 fade-in-up">
-      <a
-        href={`${base}/get-started/`}
-        class="group inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-brand-amber text-white font-semibold text-sm shadow-lg shadow-brand-amber/20 hover:shadow-brand-amber/40 hover:scale-[1.02] transition-all duration-300"
+      <h1
+        class:list={[
+          'text-3xl sm:text-5xl font-semibold tracking-[-0.035em] leading-[1.15] text-studio-ink mb-4',
+          lang === 'en' && 'text-balance',
+        ]}
       >
-        <Icon name="heroicons:arrow-down-tray" class="w-5 h-5" />
-        {t('hero.cta.getStarted')}
-      </a>
+        {t('hero.title')}
+      </h1>
+
+      <p class="text-base sm:text-[1.0625rem] text-studio-ink-soft leading-relaxed max-w-[58ch] mx-auto mb-7">
+        {t('hero.subtitle')}
+      </p>
+
+      <!-- Clean Dual Browser Pill CTAs -->
+      <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
+        <a
+          href={config.stores.chrome}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-semibold"
+        >
+          <Icon name="simple-icons:googlechrome" class="w-4 h-4" />
+          <span>{t('hero.cta.chrome')}</span>
+        </a>
+
+        <a
+          href={config.stores.firefox}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-secondary inline-flex items-center gap-2.5 px-5 py-3 rounded-full text-sm font-semibold"
+        >
+          <Icon name="simple-icons:firefox" class="w-4 h-4 text-[#E66000]" />
+          <span>{t('hero.cta.firefox')}</span>
+        </a>
+
+        <a
+          href={`${base}${getLocalizedPath(lang, '/get-started/')}`}
+          class="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-studio-ink-soft hover:text-studio-ink transition-colors"
+        >
+          <span>{t('hero.cta.allBrowsers')}</span>
+          <Icon name="heroicons:arrow-right" class="w-3.5 h-3.5" />
+        </a>
+      </div>
+
+      <p class="text-xs text-studio-ink-muted">
+        {t('hero.trust.local')} · {t('hero.trust.newtab')} · {t('hero.trust.byo')}
+      </p>
     </div>
 
-    <!-- Scroll Indicator -->
-    <div class="mt-16 fade-in-up">
-      <div class="inline-flex flex-col items-center gap-2 text-text-muted animate-bounce">
-        <span class="text-xs">{lang === 'zh' ? '向下滚动' : 'Scroll Down'}</span>
-        <Icon name="heroicons:arrow-long-down" class="w-4 h-4" />
+    <!-- Centered Floating Interactive Workbench Window -->
+    <div class="studio-window overflow-hidden max-w-4xl mx-auto">
+      <!-- Window Header Bar -->
+      <div class="px-4 sm:px-5 py-3 bg-studio-surface-subtle border-b border-studio-border flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:flex items-center gap-1.5" aria-hidden="true">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#E2E7F0]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#E2E7F0]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#E2E7F0]"></span>
+          </div>
+
+          <div class="seg-pill inline-flex items-center" role="tablist" aria-label={t('drawer.badge')}>
+            <button
+              type="button"
+              role="tab"
+              id="tab-search"
+              aria-selected="true"
+              aria-controls="panel-search"
+              class="drawer-tab seg-btn is-active px-3.5 py-1 text-xs font-semibold whitespace-nowrap cursor-pointer"
+              data-tab="search"
+            >
+              {t('drawer.tab.search')}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="tab-diff"
+              aria-selected="false"
+              aria-controls="panel-diff"
+              class="drawer-tab seg-btn px-3.5 py-1 text-xs font-medium text-studio-ink-soft hover:text-studio-ink whitespace-nowrap cursor-pointer"
+              data-tab="diff"
+            >
+              {t('drawer.tab.diff')}
+            </button>
+          </div>
+        </div>
+
+        <span class="font-mono text-[11px] text-studio-ink-muted">
+          {lang === 'zh' ? '示例交互台 · 本地 IndexedDB' : 'Interactive demo · Local IndexedDB'}
+        </span>
+      </div>
+
+      <!-- Panel 1: Instant Popup Search + Snapshot Excerpts -->
+      <div id="panel-search" role="tabpanel" aria-labelledby="tab-search">
+        <div class="px-4 sm:px-5 py-3.5 border-b border-studio-border flex flex-col sm:flex-row sm:items-center gap-3">
+          <div class="relative flex-1">
+            <Icon
+              name="heroicons:magnifying-glass"
+              class="w-4 h-4 text-studio-ink-muted absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+            />
+            <input
+              id="catalog-search-input"
+              type="search"
+              placeholder={t('drawer.searchPlaceholder')}
+              aria-label={t('drawer.searchPlaceholder')}
+              class="w-full pl-9 pr-3 py-1.5 rounded-lg bg-studio-surface-subtle border border-studio-border text-sm text-studio-ink placeholder:text-studio-ink-muted focus:bg-studio-surface focus:border-brand-cobalt"
+            />
+          </div>
+
+          <div class="flex flex-wrap items-center gap-1.5">
+            {[
+              { query: '', label: t('drawer.query.all') },
+              { query: 'offline sync', label: t('drawer.query.offline') },
+              { query: lang === 'zh' ? '排版' : 'typography', label: t('drawer.query.design') },
+              { query: 'agent', label: t('drawer.query.diff') },
+            ].map((chip, idx) => (
+              <button
+                type="button"
+                data-quick-query={chip.query}
+                class:list={[
+                  'quick-chip px-2.5 py-1 rounded-full text-xs font-medium transition-colors cursor-pointer whitespace-nowrap',
+                  idx === 0
+                    ? 'bg-brand-indigo text-white'
+                    : 'bg-studio-bg text-studio-ink-soft hover:text-studio-ink hover:bg-studio-bg-deep',
+                ]}
+              >
+                {chip.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div id="catalog-cards-list" class="divide-y divide-studio-border">
+          {sampleCards.map((card) => (
+            <article
+              class="catalog-sample-card px-4 sm:px-5 py-3.5 hover:bg-studio-surface-subtle transition-colors"
+              data-search={card.searchBlob.toLowerCase()}
+            >
+              <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0 flex-1">
+                  <div class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-0.5">
+                    <h2 class="text-sm font-semibold text-studio-ink">{card.title}</h2>
+                    <span class="font-mono text-[11px] text-studio-ink-muted">{card.domain}</span>
+                  </div>
+                  <p class="text-xs sm:text-[13px] text-studio-ink-soft leading-relaxed">
+                    {card.excerpt}
+                  </p>
+                </div>
+
+                <div class="shrink-0 flex flex-col items-end gap-1.5">
+                  <span
+                    class:list={[
+                      'px-2 py-0.5 rounded-full text-[11px] font-medium whitespace-nowrap',
+                      card.badgeTone === 'emerald'
+                        ? 'bg-[#ECFDF3] text-brand-emerald'
+                        : card.badgeTone === 'indigo'
+                          ? 'bg-[#EEF3FF] text-brand-cobalt'
+                          : 'bg-[#FFF3EC] text-brand-amber',
+                    ]}
+                  >
+                    {card.badge}
+                  </span>
+                  <span class="hidden sm:inline font-mono text-[11px] text-studio-ink-muted">
+                    {card.folder}
+                  </span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div id="catalog-empty-state" class="hidden px-5 py-10 text-center text-sm text-studio-ink-soft">
+          {t('drawer.empty')}
+        </div>
+
+        <!-- Subtle keyboard footer -->
+        <div class="px-4 sm:px-5 py-2.5 bg-studio-surface-subtle border-t border-studio-border flex items-center justify-between text-[11px] text-studio-ink-muted">
+          <span class="tabular-nums">{lang === 'zh' ? '4 条本地快照已索引' : '4 local snapshots indexed'}</span>
+          <span class="hidden sm:inline font-mono">
+            {lang === 'zh' ? '输入关键词过滤标题与正文 · 切换右侧标签预览 Diff' : 'Type to filter title & snapshot · Switch tab for Diff review'}
+          </span>
+        </div>
+      </div>
+
+      <!-- Panel 2: Side-by-Side Diff Review -->
+      <div id="panel-diff" role="tabpanel" aria-labelledby="tab-diff" class="hidden p-4 sm:p-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-3.5 mb-3.5 border-b border-studio-border">
+          <div>
+            <p class="text-sm font-semibold text-studio-ink">{t('drawer.diffHeader')}</p>
+            <p class="font-mono text-xs text-studio-ink-muted">{t('drawer.diffOrigin')}</p>
+          </div>
+          <span
+            id="diff-status-pill"
+            class="hidden px-2.5 py-1 rounded-full text-xs font-medium bg-[#ECFDF3] text-brand-emerald"
+          >
+            {t('drawer.diffApproved')}
+          </span>
+        </div>
+
+        <div class="space-y-2.5 mb-4">
+          {sampleDiffs.map((item) => (
+            <label class="flex items-start gap-3 p-3 rounded-xl border border-studio-border bg-studio-surface-subtle hover:border-studio-border-strong transition-colors cursor-pointer">
+              <input
+                type="checkbox"
+                checked
+                class="diff-checkbox mt-1 h-4 w-4 rounded accent-[#25345F]"
+              />
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2 mb-1.5">
+                  <span class="text-sm font-medium text-studio-ink truncate">{item.title}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#FFF3EC] text-brand-amber shrink-0">
+                    {item.addedTag}
+                  </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+                  <div class="px-2.5 py-1.5 rounded-lg bg-studio-surface border border-studio-border text-studio-ink-muted truncate">
+                    <span class="opacity-70">− </span>{item.from}
+                  </div>
+                  <div class="px-2.5 py-1.5 rounded-lg bg-[#ECFDF3] border border-[#BBF7D0] text-brand-emerald truncate font-medium">
+                    <span>+ </span>{item.to}
+                  </div>
+                </div>
+              </div>
+            </label>
+          ))}
+        </div>
+
+        <div class="flex items-center justify-between gap-3 pt-3.5 border-t border-studio-border">
+          <button
+            type="button"
+            id="diff-approve-btn"
+            class="btn-primary px-4 py-2 rounded-full text-xs sm:text-sm font-semibold cursor-pointer tabular-nums"
+          >
+            {t('drawer.diffApprove')}
+          </button>
+          <button
+            type="button"
+            id="diff-undo-btn"
+            class="hidden btn-secondary px-4 py-2 rounded-full text-xs sm:text-sm font-medium cursor-pointer"
+          >
+            {t('drawer.diffUndo')}
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<script define:vars={{ lang }}>
+  const tabBtns = document.querySelectorAll('.drawer-tab');
+  const searchPanel = document.getElementById('panel-search');
+  const diffPanel = document.getElementById('panel-diff');
+
+  function activateTab(target) {
+    tabBtns.forEach((btn) => {
+      const isMatch = btn.getAttribute('data-tab') === target;
+      btn.setAttribute('aria-selected', String(isMatch));
+      btn.classList.toggle('is-active', isMatch);
+      btn.classList.toggle('font-semibold', isMatch);
+      btn.classList.toggle('text-studio-ink-soft', !isMatch);
+    });
+    searchPanel?.classList.toggle('hidden', target !== 'search');
+    diffPanel?.classList.toggle('hidden', target !== 'diff');
+  }
+
+  tabBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activateTab(btn.getAttribute('data-tab') || 'search');
+    });
+  });
+
+  const searchInput = document.getElementById('catalog-search-input');
+  const cards = document.querySelectorAll('.catalog-sample-card');
+  const emptyState = document.getElementById('catalog-empty-state');
+  const cardsList = document.getElementById('catalog-cards-list');
+  const quickChips = document.querySelectorAll('.quick-chip');
+
+  function filterCards(rawQuery) {
+    const q = (rawQuery || '').trim().toLowerCase().replace(/^#/, '');
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const blob = card.getAttribute('data-search') || '';
+      const matched = !q || blob.includes(q);
+      card.classList.toggle('hidden', !matched);
+      if (matched) visibleCount++;
+    });
+
+    cardsList?.classList.toggle('hidden', visibleCount === 0);
+    emptyState?.classList.toggle('hidden', visibleCount > 0);
+
+    quickChips.forEach((chip) => {
+      const chipQ = (chip.getAttribute('data-quick-query') || '').toLowerCase();
+      const active = chipQ === (rawQuery || '').trim().toLowerCase();
+      chip.classList.toggle('bg-brand-indigo', active);
+      chip.classList.toggle('text-white', active);
+      chip.classList.toggle('bg-studio-bg', !active);
+      chip.classList.toggle('text-studio-ink-soft', !active);
+    });
+  }
+
+  searchInput?.addEventListener('input', (e) => {
+    filterCards(e.target.value);
+  });
+
+  quickChips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const val = chip.getAttribute('data-quick-query') || '';
+      if (searchInput) searchInput.value = val;
+      filterCards(val);
+    });
+  });
+
+  const checkboxes = document.querySelectorAll('.diff-checkbox');
+  const approveBtn = document.getElementById('diff-approve-btn');
+  const undoBtn = document.getElementById('diff-undo-btn');
+  const statusPill = document.getElementById('diff-status-pill');
+
+  function updateApproveCount() {
+    if (!approveBtn) return;
+    const count = Array.from(checkboxes).filter((cb) => cb.checked).length;
+    approveBtn.textContent = lang === 'zh' ? `确认应用 (${count})` : `Approve & apply (${count})`;
+    approveBtn.toggleAttribute('disabled', count === 0);
+    approveBtn.classList.toggle('opacity-50', count === 0);
+  }
+
+  checkboxes.forEach((cb) => cb.addEventListener('change', updateApproveCount));
+
+  approveBtn?.addEventListener('click', () => {
+    statusPill?.classList.remove('hidden');
+    undoBtn?.classList.remove('hidden');
+    approveBtn.classList.add('hidden');
+  });
+
+  undoBtn?.addEventListener('click', () => {
+    statusPill?.classList.add('hidden');
+    undoBtn.classList.add('hidden');
+    approveBtn?.classList.remove('hidden');
+  });
+</script>

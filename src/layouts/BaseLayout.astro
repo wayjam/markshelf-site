@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import type { Language } from '../i18n/ui';
-import { getAlternateLang, getLocalizedPath } from '../i18n/utils';
+import { getLocalizedPath } from '../i18n/utils';
 
 interface Props {
   title: string;
@@ -13,19 +13,18 @@ interface Props {
 }
 
 const { title, description, lang, currentPath = '/' } = Astro.props;
-const altLang = getAlternateLang(lang);
-const altPath = getLocalizedPath(altLang, currentPath);
 const canonicalPath = getLocalizedPath(lang, currentPath);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <!doctype html>
-<html lang={lang} class="dark">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#F3F6FA" />
     <meta name="google-site-verification" content="hylPpzj7GILGH_jW-ZzdIvrRH4G4q0hgGL_TM1Rxh_Y" />
 
     <!-- Favicon -->
@@ -44,35 +43,21 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta property="og:type" content="website" />
     <meta property="og:image" content={`${Astro.site}${base}/logo.png`} />
     <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_US'} />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   </head>
-  <body class="min-h-screen bg-bg-primary text-text-primary antialiased">
+  <body class="min-h-screen flex flex-col bg-studio-bg text-studio-ink antialiased">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[120] focus:px-4 focus:py-2 focus:rounded-full focus:bg-studio-surface focus:text-studio-ink focus:border focus:border-studio-border-strong focus:shadow-lg"
+    >
+      {lang === 'zh' ? '跳到正文' : 'Skip to content'}
+    </a>
+
     <Navbar lang={lang} currentPath={currentPath} />
-    <main>
+
+    <main id="main-content" class="flex-1">
       <slot />
     </main>
+
     <Footer lang={lang} />
-
-    <!-- Scroll animation observer -->
-    <script>
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-      );
-
-      document.querySelectorAll('.fade-in-up').forEach((el) => {
-        observer.observe(el);
-      });
-    </script>
   </body>
 </html>

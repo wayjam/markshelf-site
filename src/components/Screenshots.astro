@@ -19,163 +19,161 @@ const { lang } = Astro.props;
 const t = useTranslation(lang);
 
 const screenshots = [
-  { src: homeImg, alt: t('screenshots.home'), label: t('screenshots.home') },
-  { src: organizeImg, alt: t('screenshots.organize'), label: t('screenshots.organize') },
-  { src: exportImg, alt: t('screenshots.export'), label: t('screenshots.export') },
-  { src: healthcheckImg, alt: t('screenshots.healthcheck'), label: t('screenshots.healthcheck') },
-  { src: settingsProviderImg, alt: t('screenshots.settings-provider'), label: t('screenshots.settings-provider') },
-  { src: settingsSkillsImg, alt: t('screenshots.settings-skills'), label: t('screenshots.settings-skills') },
+  { id: 'home', src: homeImg, tab: lang === 'zh' ? '书架视图' : 'Shelf', caption: t('screenshots.home') },
+  { id: 'organize', src: organizeImg, tab: lang === 'zh' ? 'Diff 整理' : 'Diff Review', caption: t('screenshots.organize') },
+  { id: 'healthcheck', src: healthcheckImg, tab: lang === 'zh' ? '健康检查' : 'Health Check', caption: t('screenshots.healthcheck') },
+  { id: 'export', src: exportImg, tab: lang === 'zh' ? '备份导出' : 'Backup', caption: t('screenshots.export') },
+  { id: 'provider', src: settingsProviderImg, tab: lang === 'zh' ? 'AI 服务商' : 'Providers', caption: t('screenshots.settings-provider') },
+  { id: 'skills', src: settingsSkillsImg, tab: lang === 'zh' ? '提示词技能' : 'Skills', caption: t('screenshots.settings-skills') },
 ];
 ---
 
-<section id="screenshots" class="py-24 sm:py-32 relative">
+<section id="screenshots" class="py-16 sm:py-24 bg-studio-surface border-y border-studio-border">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Section Header -->
-    <div class="text-center mb-16 fade-in-up">
-      <h2 class="text-3xl sm:text-4xl font-bold mb-4">
-        <span class="gradient-text">{t('screenshots.title')}</span>
-      </h2>
-      <p class="text-text-secondary text-base sm:text-lg max-w-2xl mx-auto">
-        {t('screenshots.subtitle')}
-      </p>
-    </div>
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+      <div>
+        <h2 class="text-2xl sm:text-4xl font-semibold tracking-[-0.03em] text-studio-ink mb-2">
+          {t('screenshots.title')}
+        </h2>
+        <p class="text-base text-studio-ink-soft">
+          {t('screenshots.subtitle')}
+        </p>
+      </div>
 
-    <!-- Carousel -->
-    <div class="relative fade-in-up">
-      <!-- Carousel Container -->
-      <div id="carousel" class="overflow-hidden rounded-2xl">
-        <div id="carousel-track" class="flex transition-transform duration-500 ease-out">
-          {screenshots.map((shot, i) => (
-            <div class="min-w-full px-2 sm:px-4" data-index={i}>
-              <div
-                class="relative rounded-xl overflow-hidden glow-border cursor-pointer group"
-                data-lightbox={i}
-              >
-                <Image
-                  src={shot.src}
-                  alt={shot.alt}
-                  class="w-full h-auto rounded-xl transition-transform duration-500 group-hover:scale-[1.02]"
-                  loading={i === 0 ? 'eager' : 'lazy'}
-                  widths={[640, 960, 1280]}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
-                />
-                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 sm:p-6">
-                  <p class="text-sm sm:text-base text-white/90 font-medium">{shot.label}</p>
-                </div>
-              </div>
-            </div>
+      <!-- Segmented Pill Switcher -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="seg-pill inline-flex items-center overflow-x-auto max-w-full" role="tablist" aria-label={t('screenshots.title')}>
+          {screenshots.map((shot, idx) => (
+            <button
+              type="button"
+              role="tab"
+              aria-selected={idx === 0 ? 'true' : 'false'}
+              class:list={[
+                'shot-tab seg-btn px-3 py-1.5 text-xs font-medium whitespace-nowrap cursor-pointer',
+                idx === 0
+                  ? 'is-active font-semibold text-studio-ink'
+                  : 'text-studio-ink-soft hover:text-studio-ink',
+              ]}
+              data-shot-index={idx}
+            >
+              {shot.tab}
+            </button>
           ))}
         </div>
       </div>
+    </div>
 
-      <!-- Navigation Arrows -->
-      <button
-        id="carousel-prev"
-        class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all z-10"
-        aria-label="Previous"
-      >
-        <Icon name="heroicons:chevron-left" class="w-5 h-5" />
-      </button>
-      <button
-        id="carousel-next"
-        class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all z-10"
-        aria-label="Next"
-      >
-        <Icon name="heroicons:chevron-right" class="w-5 h-5" />
-      </button>
-
-      <!-- Dots Indicator -->
-      <div class="flex items-center justify-center gap-2 mt-6">
-        {screenshots.map((_, i) => (
-          <button
-            class:list={[
-              'carousel-dot w-2 h-2 rounded-full transition-all duration-300',
-              i === 0 ? 'bg-brand-ice w-6' : 'bg-white/20 hover:bg-white/40',
-            ]}
-            data-dot={i}
-            aria-label={`Go to screenshot ${i + 1}`}
-          />
+    <!-- Clean Window Frame (exact 3024:1646 ratio so zero cropping occurs) -->
+    <div class="studio-window overflow-hidden">
+      <div id="carousel-track" class="flex transition-transform duration-300 ease-out">
+        {screenshots.map((shot) => (
+          <div class="w-full shrink-0">
+            <button
+              type="button"
+              class="block w-full text-left cursor-zoom-in bg-studio-surface"
+              data-lightbox-trigger
+              aria-label={shot.caption}
+            >
+              <Image
+                src={shot.src}
+                alt={shot.caption}
+                class="w-full aspect-[3024/1646] object-contain bg-white"
+                loading="lazy"
+              />
+            </button>
+          </div>
         ))}
+      </div>
+
+      <div class="px-4 sm:px-5 py-3 border-t border-studio-border bg-studio-surface-subtle flex items-center justify-between gap-4">
+        <p id="shot-caption" class="text-xs sm:text-sm text-studio-ink font-medium truncate">
+          {screenshots[0].caption}
+        </p>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="font-mono text-xs text-studio-ink-muted tabular-nums mr-1" id="shot-counter">
+            1 / {screenshots.length}
+          </span>
+          <button
+            id="prev-btn"
+            type="button"
+            class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
+            aria-label={lang === 'zh' ? '上一张截图' : 'Previous screenshot'}
+          >
+            <Icon name="heroicons:chevron-left" class="w-4 h-4" />
+          </button>
+          <button
+            id="next-btn"
+            type="button"
+            class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
+            aria-label={lang === 'zh' ? '下一张截图' : 'Next screenshot'}
+          >
+            <Icon name="heroicons:chevron-right" class="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Lightbox Overlay -->
-  <div id="lightbox" class="lightbox-overlay" role="dialog" aria-modal="true">
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox-overlay" role="dialog" aria-modal="true" aria-label={t('screenshots.title')}>
     <button
       id="lightbox-close"
-      class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors z-10"
-      aria-label="Close"
+      type="button"
+      class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 flex items-center justify-center cursor-pointer transition-colors"
+      aria-label={lang === 'zh' ? '关闭预览' : 'Close preview'}
     >
       <Icon name="heroicons:x-mark" class="w-5 h-5" />
     </button>
-    <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[85vh]" />
+    <div id="lightbox-frame"></div>
   </div>
 </section>
 
-<script>
-  // Carousel
-  const track = document.getElementById('carousel-track') as HTMLElement;
-  const prevBtn = document.getElementById('carousel-prev');
-  const nextBtn = document.getElementById('carousel-next');
-  const dots = document.querySelectorAll('.carousel-dot');
-  const total = dots.length;
-  let current = 0;
-  let autoplayTimer: ReturnType<typeof setInterval>;
+<script define:vars={{ captions: screenshots.map((s) => s.caption) }}>
+  const track = document.getElementById('carousel-track');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const shotTabs = document.querySelectorAll('.shot-tab');
+  const captionEl = document.getElementById('shot-caption');
+  const counterEl = document.getElementById('shot-counter');
+  const total = captions.length;
+  let currentIndex = 0;
 
-  function goTo(index: number) {
-    current = ((index % total) + total) % total;
-    track.style.transform = `translateX(-${current * 100}%)`;
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('bg-brand-ice', i === current);
-      dot.classList.toggle('w-6', i === current);
-      dot.classList.toggle('bg-white/20', i !== current);
-      dot.classList.toggle('w-2', i !== current);
+  function goToSlide(idx) {
+    currentIndex = ((idx % total) + total) % total;
+    if (track) track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    if (captionEl) captionEl.textContent = captions[currentIndex];
+    if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${total}`;
+
+    shotTabs.forEach((tab, i) => {
+      const active = i === currentIndex;
+      tab.setAttribute('aria-selected', String(active));
+      tab.classList.toggle('is-active', active);
+      tab.classList.toggle('font-semibold', active);
+      tab.classList.toggle('text-studio-ink-soft', !active);
     });
   }
 
-  function startAutoplay() {
-    autoplayTimer = setInterval(() => goTo(current + 1), 5000);
-  }
-
-  function resetAutoplay() {
-    clearInterval(autoplayTimer);
-    startAutoplay();
-  }
-
-  prevBtn?.addEventListener('click', () => { goTo(current - 1); resetAutoplay(); });
-  nextBtn?.addEventListener('click', () => { goTo(current + 1); resetAutoplay(); });
-  dots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-      goTo(Number((dot as HTMLElement).dataset.dot));
-      resetAutoplay();
+  prevBtn?.addEventListener('click', () => goToSlide(currentIndex - 1));
+  nextBtn?.addEventListener('click', () => goToSlide(currentIndex + 1));
+  shotTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const idx = Number(tab.getAttribute('data-shot-index') || 0);
+      goToSlide(idx);
     });
   });
 
-  // Touch/swipe support
-  let touchStartX = 0;
-  track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener('touchend', (e) => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
-      goTo(diff > 0 ? current + 1 : current - 1);
-      resetAutoplay();
-    }
-  });
-
-  startAutoplay();
-
-  // Lightbox
   const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const lightboxFrame = document.getElementById('lightbox-frame');
   const lightboxClose = document.getElementById('lightbox-close');
 
-  document.querySelectorAll('[data-lightbox]').forEach((el) => {
-    el.addEventListener('click', () => {
-      const img = el.querySelector('img');
-      if (img && lightbox && lightboxImg) {
-        lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt;
+  document.querySelectorAll('[data-lightbox-trigger]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const img = btn.querySelector('img');
+      if (img && lightboxFrame && lightbox) {
+        const clone = document.createElement('img');
+        clone.src = img.currentSrc || img.src;
+        clone.alt = img.alt;
+        lightboxFrame.replaceChildren(clone);
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
@@ -184,6 +182,7 @@ const screenshots = [
 
   function closeLightbox() {
     lightbox?.classList.remove('active');
+    lightboxFrame?.replaceChildren();
     document.body.style.overflow = '';
   }
 
@@ -192,6 +191,6 @@ const screenshots = [
     if (e.target === lightbox) closeLightbox();
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'Escape' && lightbox?.classList.contains('active')) closeLightbox();
   });
 </script>

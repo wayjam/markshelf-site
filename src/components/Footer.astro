@@ -1,6 +1,8 @@
 ---
+import { Icon } from 'astro-icon/components';
 import type { Language } from '../i18n/ui';
 import { useTranslation, getLocalizedPath } from '../i18n/utils';
+import { config } from '../config';
 
 interface Props {
   lang: Language;
@@ -11,52 +13,92 @@ const t = useTranslation(lang);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<footer class="border-t border-white/5 bg-bg-secondary/50">
+<footer class="border-t border-studio-border bg-studio-surface">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Brand -->
-      <div>
-        <a href={`${base}${getLocalizedPath(lang, '/')}`} class="flex items-center gap-2.5 mb-3">
-          <img
-            src={`${base}/logo.png`}
-            alt="MarkShelf"
-            class="w-7 h-7 rounded-lg"
-            onerror="this.style.display='none'"
-          />
-          <span class="text-base font-bold gradient-text">MarkShelf</span>
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+      <div class="md:col-span-6">
+        <a href={`${base}${getLocalizedPath(lang, '/')}`} class="inline-flex items-center gap-2.5 mb-3">
+          <img src={`${base}/logo.png`} alt="MarkShelf" width="26" height="26" class="w-[26px] h-[26px] rounded-[7px]" />
+          <span class="text-[15px] font-semibold tracking-[-0.02em] text-studio-ink">MarkShelf</span>
         </a>
-        <p class="text-sm text-text-muted leading-relaxed">
+        <p class="text-sm text-studio-ink-soft max-w-sm leading-relaxed">
           {t('footer.description')}
         </p>
       </div>
 
-      <!-- Navigation -->
-      <div>
-        <h3 class="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-4">
+      <div class="md:col-span-3">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-studio-ink-muted mb-3">
           {t('footer.nav')}
         </h3>
-        <ul class="space-y-2.5">
+        <ul class="space-y-2 text-sm">
           <li>
-            <a href={`${base}${getLocalizedPath(lang, '/')}`} class="text-sm text-text-muted hover:text-brand-ice transition-colors">
+            <a href={`${base}${getLocalizedPath(lang, '/')}`} class="text-studio-ink-soft hover:text-studio-ink transition-colors">
               {t('nav.home')}
             </a>
           </li>
           <li>
-            <a href={`${base}${getLocalizedPath(lang, '/privacy/')}`} class="text-sm text-text-muted hover:text-brand-ice transition-colors">
+            <a href={`${base}${getLocalizedPath(lang, '/get-started/')}`} class="text-studio-ink-soft hover:text-studio-ink transition-colors">
+              {t('nav.getStarted')}
+            </a>
+          </li>
+          <li>
+            <a href={`${base}${getLocalizedPath(lang, '/privacy/')}`} class="text-studio-ink-soft hover:text-studio-ink transition-colors">
               {t('nav.privacy')}
             </a>
           </li>
           <li>
-            <a href={`${base}${getLocalizedPath(lang, '/donate/')}`} class="text-sm text-text-muted hover:text-brand-ice transition-colors">
+            <a href={`${base}${getLocalizedPath(lang, '/donate/')}`} class="text-studio-ink-soft hover:text-studio-ink transition-colors">
               {t('nav.donate')}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-3">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-studio-ink-muted mb-3">
+          {t('footer.links')}
+        </h3>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a
+              href={config.stores.chrome}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-studio-ink-soft hover:text-studio-ink transition-colors"
+            >
+              {t('footer.chrome-store')}
+              <Icon name="heroicons:arrow-top-right-on-square" class="w-3.5 h-3.5 text-studio-ink-muted" />
+            </a>
+          </li>
+          <li>
+            <a
+              href={config.stores.firefox}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-studio-ink-soft hover:text-studio-ink transition-colors"
+            >
+              {t('footer.firefox-store')}
+              <Icon name="heroicons:arrow-top-right-on-square" class="w-3.5 h-3.5 text-studio-ink-muted" />
+            </a>
+          </li>
+          <li>
+            <a
+              href={config.social.githubRepo}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-studio-ink-soft hover:text-studio-ink transition-colors"
+            >
+              {t('footer.github')}
+              <Icon name="heroicons:arrow-top-right-on-square" class="w-3.5 h-3.5 text-studio-ink-muted" />
             </a>
           </li>
         </ul>
       </div>
     </div>
 
-    <div class="mt-10 pt-6 border-t border-white/5 text-center">
-      <p class="text-xs text-text-muted">{t('footer.copyright')}</p>
+    <div class="mt-10 pt-6 border-t border-studio-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-studio-ink-muted">
+      <p>{t('footer.copyright')}</p>
+      <p class="font-mono">IndexedDB · Local-first · Popup + Shelf</p>
     </div>
   </div>
 </footer>

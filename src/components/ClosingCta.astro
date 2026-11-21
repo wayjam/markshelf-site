@@ -1,0 +1,44 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Language } from '../i18n/ui';
+import { useTranslation, getLocalizedPath } from '../i18n/utils';
+import { config } from '../config';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslation(lang);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<section class="py-16 sm:py-24 bg-studio-bg">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-2xl sm:text-4xl font-semibold tracking-[-0.03em] text-studio-ink mb-3">
+      {t('ctaBand.title')}
+    </h2>
+    <p class="text-base text-studio-ink-soft leading-relaxed max-w-2xl mx-auto mb-8">
+      {t('ctaBand.subtitle')}
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <a
+        href={config.stores.chrome}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold"
+      >
+        <Icon name="simple-icons:googlechrome" class="w-4 h-4" />
+        <span>{t('hero.cta.chrome')}</span>
+      </a>
+      <a
+        href={`${base}${getLocalizedPath(lang, '/get-started/')}`}
+        class="btn-secondary inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold"
+      >
+        <span>{t('hero.cta.allBrowsers')}</span>
+        <Icon name="heroicons:arrow-right" class="w-4 h-4" />
+      </a>
+    </div>
+  </div>
+</section>
