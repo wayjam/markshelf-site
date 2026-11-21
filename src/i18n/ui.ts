@@ -25,7 +25,7 @@ export const ui = {
     'hero.cta.allBrowsers': 'All browsers',
     'hero.trust.local': 'Local-first IndexedDB',
     'hero.trust.newtab': 'New Tab untouched',
-    'hero.trust.byo': 'BYO AI key or offline',
+    'hero.trust.byo': 'BYO API key, local agent, or offline',
 
     // Hero Interactive Catalog Drawer
     'drawer.badge': 'Interactive sample catalog',
@@ -97,12 +97,19 @@ export const ui = {
     'features.privacy.desc': 'Zero servers. Strip URL paths down to domains before AI calls.',
 
     // Optional Power-User / Companion Bridge Band (calm secondary tier)
-    'bridge.title': 'Connect Claude Code, Cursor, or Codex',
+    'bridge.title': 'Work with Claude Code, Codex, Cursor, or local Agents',
     'bridge.desc':
-      'Pair with the open Companion CLI & Stdio MCP server. Agent edits still wait in your Pending Diff queue.',
-    'bridge.badge1': 'Companion CLI & MCP',
+      'Two ways to pair MarkShelf with the AI agents already on your machine over local Native Messaging—no third-party server needed.',
+    'bridge.wayA.title': 'Agent → MarkShelf (CLI & Stdio MCP)',
+    'bridge.wayA.desc':
+      'Search bookmarks, read boundary-tagged snapshots, and triage your inbox with built-in one-line prompts. Proposed edits always wait in Pending Diff.',
+    'bridge.wayB.title': 'MarkShelf → Local Agent CLI (Built-in Provider)',
+    'bridge.wayB.desc':
+      'Select installed claude, codex, gemini, omp, or custom CLI commands right in Settings to power auto-tagging, classification, and summaries without an extra API key.',
+    'bridge.badge1': '@markshelf/companion · CLI & MCP',
     'bridge.badge2': 'Mandatory Diff approval',
     'bridge.badge3': 'Injection-safe boundary tags',
+    'bridge.badge4': 'Local CLI as AI provider',
 
     // Screenshots
     'screenshots.title': 'See it in action',
@@ -111,12 +118,12 @@ export const ui = {
     'screenshots.organize': 'AI Organize — Side-by-side Diff with per-item checkboxes',
     'screenshots.healthcheck': 'Health Check — Dead links, duplicates, and empty folders',
     'screenshots.export': 'Backup — Clean import and export across browsers',
-    'screenshots.settings-provider': 'AI Providers — OpenAI, Gemini, Anthropic, or local Ollama',
+    'screenshots.settings-provider': 'AI Providers — OpenAI, Gemini, Anthropic, Gemini Nano, or Local Agent CLI',
     'screenshots.settings-skills': 'AI Skills — Customize every prompt template',
 
     // Bottom CTA band
     'ctaBand.title': 'Ready for a cleaner shelf?',
-    'ctaBand.subtitle': 'Free for Chrome and Firefox. Local storage, your AI, instant undo.',
+    'ctaBand.subtitle': 'Free for Chrome and Firefox. Local storage, your API key or local agent, instant undo.',
 
     // Privacy Policy
     'privacy.title': 'Privacy Policy',
@@ -131,7 +138,7 @@ export const ui = {
       'All bookmark metadata, extracted page text snapshots (bookmarkContent), AI tags (bookmarkTags), local vector embeddings, pending Diff queues, and audit logs are stored in browser IndexedDB (MarkShelfDB) and chrome.storage. This data stays on your machine unless you explicitly trigger an AI provider call.',
     'privacy.section3.title': '3. AI Service Interaction & Privacy Mode',
     'privacy.section3.content':
-      'When you invoke AI classification, tagging, organization, or summarization, MarkShelf sends only the required bookmark context directly from your browser to the AI provider you configured (such as OpenAI, Google Gemini, Anthropic, or a local Ollama/OpenAI-compatible endpoint). With Privacy Mode enabled, MarkShelf strips URL paths and query strings down to the domain name before sending.',
+      'When you invoke AI classification, tagging, organization, or summarization, MarkShelf sends only the required bookmark context directly from your browser to the provider you configured—such as OpenAI, Google Gemini, Anthropic, a local Ollama endpoint, browser-built-in Gemini Nano, or your own local Agent CLI (Claude Code, Codex, Gemini CLI, omp) over local Native Messaging. With Privacy Mode enabled, MarkShelf strips URL paths and query strings down to the domain name before sending.',
     'privacy.section4.title': '4. Browser Permissions Explained',
     'privacy.section4.p1': 'MarkShelf requests only the browser permissions required for its features:',
     'privacy.section4.bookmarks': 'bookmarks — Read and update your browser bookmark tree when you browse, move, or approve a Diff',
@@ -140,9 +147,10 @@ export const ui = {
     'privacy.section4.contextMenus': 'contextMenus — Add right-click quick actions for saving or inspecting bookmarks',
     'privacy.section4.tabs': 'tabs — Read the active tab URL and title when you click to save a bookmark',
     'privacy.section4.scripting': 'scripting — Extract clean page text locally for summaries and offline content snapshots',
+    'privacy.section4.nativeMessaging': 'nativeMessaging (optional) — Connect the local @markshelf/companion host for CLI / MCP access and Local Agent CLI providers',
     'privacy.section5.title': '5. Third-Party Services & Optional Local Agents',
     'privacy.section5.content':
-      'MarkShelf contains no analytics, telemetry, or advertising SDKs. External network requests happen only to your chosen AI provider or to check link health when you run a check. If you optionally pair the local @markshelf/companion host, communication runs strictly over local browser Native Messaging on your machine, and proposed agent edits always wait for human approval in the Pending Diff view.',
+      'MarkShelf contains no analytics, telemetry, or advertising SDKs. External network requests happen only to your chosen AI provider or to check link health when you run a check. If you optionally pair the local @markshelf/companion host (for MCP/CLI access or using a local Agent CLI as a provider), communication runs strictly over local browser Native Messaging on your machine, and proposed agent edits always wait for human approval in the Pending Diff view.',
     'privacy.section6.title': '6. Data Security & Removal',
     'privacy.section6.content':
       'Because your library resides locally in your browser profile, uninstalling MarkShelf or clearing extension storage removes its IndexedDB cache while leaving your native browser bookmarks intact.',
@@ -188,7 +196,15 @@ export const ui = {
     'getStarted.step2.title': 'Search or open the full shelf',
     'getStarted.step2.desc': 'Search immediately from the popup, or click to launch the full-page manager.',
     'getStarted.step3.title': 'Bring an AI key (optional)',
-    'getStarted.step3.desc': 'Use keyword & local snapshot search offline, or add OpenAI / Gemini / Ollama in Settings.',
+    'getStarted.step3.desc': 'Search offline via keywords & snapshots, add OpenAI / Gemini / Ollama, or pick a local Agent CLI in Settings.',
+    'getStarted.agentTitle': 'Optional: Connect Local AI Agents',
+    'getStarted.agentSubtitle': 'Already using Claude Code, Codex, Cursor, Gemini CLI, or omp? Pair them locally in two steps.',
+    'getStarted.agentStep1.title': '1. Enable Agent Bridge',
+    'getStarted.agentStep1.desc': 'Open MarkShelf Settings → Agent Bridge, grant optional Native Messaging permission, and copy your Extension ID.',
+    'getStarted.agentStep2.title': '2. Register the local host',
+    'getStarted.agentStep2.desc': 'Run npx @markshelf/companion install --ext-id <EXTENSION_ID> in your terminal to set up markshelf CLI, markshelf-mcp, and Local Agent CLI detection.',
+    'getStarted.agentWayA': 'Way A · Let your Agent drive MarkShelf: copy a one-line prompt from Help → Agent Bridge into Claude Code, Cursor, or Codex to search snapshots or submit Pending Diffs.',
+    'getStarted.agentWayB': 'Way B · Use local Agents inside MarkShelf: open Settings → Providers → Add provider → Local Agent CLI to detect claude / codex / omp / gemini for auto-tagging and summaries.',
 
     // Footer
     'footer.description': 'Local-first intelligent bookmark manager for Chrome, Firefox & Edge.',
@@ -216,7 +232,7 @@ export const ui = {
     'hero.cta.allBrowsers': '全部浏览器',
     'hero.trust.local': '纯本地 IndexedDB 存储',
     'hero.trust.newtab': '不改动新标签页',
-    'hero.trust.byo': '自备 AI Key 或离线用',
+    'hero.trust.byo': '支持 API Key、本地 Agent 或离线用',
 
     // Hero Interactive Catalog Drawer
     'drawer.badge': '可交互示例卡片盒',
@@ -288,12 +304,19 @@ export const ui = {
     'features.privacy.desc': '无中心服务器，AI 请求前自动脱敏 URL。',
 
     // Optional Bridge Band
-    'bridge.title': '连上 Claude Code、Cursor 或 Codex',
+    'bridge.title': '与 Claude Code、Codex、Cursor 等本地 Agent 双向协作',
     'bridge.desc':
-      '支持 Companion CLI 与 Stdio MCP，Agent 提议的改动同样先走 Diff 审批。',
-    'bridge.badge1': 'Companion CLI & MCP',
+      '通过本机 Native Messaging，既能让外部 Agent 操作书签库，也能直接调用本机 CLI 驱动扩展内 AI 功能，无需额外云端中转。',
+    'bridge.wayA.title': 'Agent → MarkShelf（CLI 与 Stdio MCP）',
+    'bridge.wayA.desc':
+      '在「帮助 → Agent 协作」复制一句话 Prompt 发给 Claude Code、Cursor 或 Codex，检索书签、读取防注入快照与整理 Inbox，改动先入 Pending Diff 待审队列。',
+    'bridge.wayB.title': 'MarkShelf → 本地 Agent CLI（内置 Provider）',
+    'bridge.wayB.desc':
+      '在「设置 → Provider」选用本机已安装的 claude、codex、gemini、omp 或自定义命令，无需另配 API Key 即可驱动自动打标、智能整理与摘要。',
+    'bridge.badge1': '@markshelf/companion · CLI & MCP',
     'bridge.badge2': '强制 Diff 人工审批',
     'bridge.badge3': '防注入边界隔离',
+    'bridge.badge4': '支持本地 CLI 作模型服务',
 
     // Screenshots
     'screenshots.title': '界面实拍',
@@ -302,12 +325,12 @@ export const ui = {
     'screenshots.organize': 'AI 整理 — 双栏 Diff 对比与逐条勾选确认',
     'screenshots.healthcheck': '健康检查 — 扫描死链、重复书签与空目录',
     'screenshots.export': '备份迁移 — 干净导出与跨浏览器导入',
-    'screenshots.settings-provider': 'AI 服务商 — 接入 OpenAI、Gemini、Anthropic 或本地 Ollama',
+    'screenshots.settings-provider': 'AI 服务商 — 接入 OpenAI、Gemini、Anthropic、Gemini Nano 或本地 Agent CLI',
     'screenshots.settings-skills': 'AI 技能 — 查看并定制每条 Prompt 模板',
 
     // Bottom CTA band
     'ctaBand.title': '给书签来一次清爽大扫除',
-    'ctaBand.subtitle': 'Chrome 与 Firefox 免费安装。数据留本地，改动可撤销。',
+    'ctaBand.subtitle': 'Chrome 与 Firefox 免费安装。数据留本地，支持 API 或本地 Agent，改动可撤销。',
 
     // Privacy Policy
     'privacy.title': '隐私政策',
@@ -322,7 +345,7 @@ export const ui = {
       '所有书签元数据、网页正文摘录（bookmarkContent）、AI 标签（bookmarkTags）、本地向量索引、待审 Diff 队列与审计日志均存储在浏览器 IndexedDB（MarkShelfDB）及 chrome.storage 中。除非您主动触发 AI 功能，这些数据不会离开本机。',
     'privacy.section3.title': '3. AI 服务交互与隐私模式',
     'privacy.section3.content':
-      '当您主动使用 AI 分类、整理、打标或摘要时，MarkShelf 仅将必要上下文直接从您的浏览器发往您自行配置的 AI 服务商（如 OpenAI、Google Gemini、Anthropic 或本地 Ollama 等）。开启「隐私模式」后，发送前会自动剥离 URL 的路径与查询参数，仅保留域名。',
+      '当您主动使用 AI 分类、整理、打标或摘要时，MarkShelf 仅将必要上下文从浏览器发往您自行配置的服务——包括云端 API（OpenAI、Google Gemini、Anthropic）、本地端点（Ollama）、浏览器内置 Gemini Nano，或通过本机 Native Messaging 调用您本地已安装的 Agent CLI（如 Claude Code、Codex、Gemini CLI、omp）。开启「隐私模式」后，发送前会自动剥离 URL 的路径与查询参数，仅保留域名。',
     'privacy.section4.title': '4. 浏览器权限说明',
     'privacy.section4.p1': 'MarkShelf 仅申请实现功能所必需的最小浏览器权限：',
     'privacy.section4.bookmarks': 'bookmarks — 在您浏览、拖拽移动或批准 Diff 时读写浏览器书签树',
@@ -331,9 +354,10 @@ export const ui = {
     'privacy.section4.contextMenus': 'contextMenus — 提供右键快捷菜单用于快速收藏或查看快照',
     'privacy.section4.tabs': 'tabs — 点击收藏时读取当前标签页标题与网址',
     'privacy.section4.scripting': 'scripting — 在本地提取网页正文，用于生成摘要与离线全文快照',
+    'privacy.section4.nativeMessaging': 'nativeMessaging（可选）— 连接本地 @markshelf/companion 宿主进程，用于 CLI / MCP 对接与本地 Agent CLI 模型调用',
     'privacy.section5.title': '5. 第三方服务与可选本地 Agent',
     'privacy.section5.content':
-      'MarkShelf 不包含任何统计分析、广告追踪或第三方埋点 SDK。对外网络请求仅发生在您配置的 AI 接口调用或手动触发链接体检时。若您可选安装本地 @markshelf/companion 伴侣工具，通信仅通过本机浏览器 Native Messaging 进行，且外部 Agent 提交的修改必须经过「整理 Diff」页面的人工确认。',
+      'MarkShelf 不包含任何统计分析、广告追踪或第三方埋点 SDK。对外网络请求仅发生在您配置的 AI 接口调用或手动触发链接体检时。若您可选启用本地 @markshelf/companion 伴侣（用于 MCP/CLI 对接或将本地 Agent CLI 作为模型服务），通信仅通过本机浏览器 Native Messaging 进行，且外部 Agent 提交的修改必须经过「整理 Diff」页面的人工确认。',
     'privacy.section6.title': '6. 数据安全与移除',
     'privacy.section6.content':
       '所有扩展缓存均随浏览器配置文件存放在本地。卸载 MarkShelf 或清除扩展数据会删除其本地 IndexedDB 缓存，不会损坏您的浏览器原生书签。',
@@ -379,7 +403,15 @@ export const ui = {
     'getStarted.step2.title': '即搜即用，或打开完整书架',
     'getStarted.step2.desc': '弹窗内可直接搜标题、标签和正文；需要批量整理时再点开全页管理器。',
     'getStarted.step3.title': '按需配置 AI 服务（可选）',
-    'getStarted.step3.desc': '不配 AI 也能使用离线搜索与快照；在设置中填入 OpenAI / Gemini / Ollama 即可开启智能整理。',
+    'getStarted.step3.desc': '不配 AI 也能离线搜正文快照；可在设置中添加 OpenAI / Gemini / Ollama，或直接选用本机 Agent CLI 开启智能整理。',
+    'getStarted.agentTitle': '进阶可选：连接本地 AI Agent',
+    'getStarted.agentSubtitle': '电脑里已经装了 Claude Code、Codex、Cursor、Gemini CLI 或 omp？两步即可本机打通。',
+    'getStarted.agentStep1.title': '1. 开启 Agent 桥接权限',
+    'getStarted.agentStep1.desc': '打开 MarkShelf「设置 → Agent 桥接」，授权可选的 Native Messaging 权限并复制扩展 ID。',
+    'getStarted.agentStep2.title': '2. 注册本地宿主进程',
+    'getStarted.agentStep2.desc': '在终端运行 npx @markshelf/companion install --ext-id <EXTENSION_ID>，一次配置好 markshelf CLI、markshelf-mcp 与本地 Agent 调用通道。',
+    'getStarted.agentWayA': '方式 A · 让外部 Agent 操作书签：从「帮助 → Agent 协作」复制一句话 Prompt 发给 Claude Code、Cursor 或 Codex，搜快照或提交待审 Diff。',
+    'getStarted.agentWayB': '方式 B · 把本地 Agent 当作扩展模型：在「设置 → Provider → 添加」选「本地 Agent CLI」，一键检测 claude / codex / omp / gemini 驱动自动打标与摘要。',
 
     // Footer
     'footer.description': '本地优先的浏览器智能书签管理器。',

@@ -20,7 +20,7 @@ Local-first, reversible bookmark intelligence:
 - **Non-intrusive entry**: Opens from the extension Popup for instant search and saving, with a dedicated full-page manager (`index.html`)—never hijacks the browser New Tab.
 - **Full-text offline snapshots & semantic search**: Automatically captures page content excerpts/snapshots locally into IndexedDB and combines keyword, tag, folder, and on-device/provider semantic search.
 - **Human-in-the-loop safety**: AI restructuring and optional external Agent edits (via Native Messaging Companion CLI / MCP) always preview in a side-by-side Pending Diff queue with full Undo support—never silently mutating bookmarks.
-- **BYO AI & Privacy Mode**: All bookmarks and snapshots stay in browser IndexedDB; Privacy Mode strips URL paths/queries to domain-only before calling user-chosen AI providers.
+- **BYO AI, Local Agent CLI & Privacy Mode**: All bookmarks and snapshots stay in browser IndexedDB; works offline, with BYO API keys, browser-built-in Gemini Nano, or user-installed local Agent CLIs (`claude`, `codex`, `omp`, `gemini`, custom command) via `@markshelf/companion`. Privacy Mode strips URL paths/queries to domain-only before calling AI providers.
 
 ## Operating Context
 
@@ -32,7 +32,7 @@ Local-first, reversible bookmark intelligence:
 
 - Preserve existing Astro + Tailwind v4 stack, bilingual routing (`/en/`, `/zh/`), GitHub Pages `base: '/markshelf-site'` path handling, and `src/config.ts` store/social/crypto donation data.
 - Update outdated v0.1 copy/screenshots (e.g., remove "replaces your new tab" claim; reflect v0.2.4 Popup + full-page manager, page content snapshots, and optional Agent Bridge + Pending Diff approval while keeping everyday browser users as primary audience).
-- Privacy Policy must accurately reflect local IndexedDB storage (`bookmarks`, `bookmarkContent`, `bookmarkTags`, `embeddings`, `pendingDiffs`, `auditLogs`), Privacy Mode URL sanitization, and extension permissions (`bookmarks`, `storage`, `alarms`, `contextMenus`, `tabs`, `scripting`, plus optional `nativeMessaging` if applicable—stick to verified manifest permissions unless documented).
+- Privacy Policy must accurately reflect local IndexedDB storage (`bookmarks`, `bookmarkContent`, `bookmarkTags`, `embeddings`, `pendingDiffs`, `auditLogs`), Privacy Mode URL sanitization, and extension permissions (`bookmarks`, `storage`, `alarms`, `contextMenus`, `tabs`, `scripting`, plus optional `nativeMessaging` for `@markshelf/companion`).
 - No invented testimonials, user counts, enterprise logos, or unverified browser availability.
 
 ## Brand Commitments

@@ -140,8 +140,8 @@ const featureGroups = [
 
     <!-- Brand-harmonized Deep Indigo Optional Agent Bridge Callout (#182242 / #89AEFA matching logo) -->
     <div class="mt-8 rounded-2xl bg-[#192444] text-white p-6 sm:p-8 border border-[#2C3B69] shadow-[0_20px_50px_-15px_rgba(25,36,68,0.35)]">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        <div class="lg:col-span-7">
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-6">
+        <div class="max-w-2xl">
           <div class="flex items-center gap-2.5 mb-2">
             <Icon name="heroicons:cpu-chip" class="w-5 h-5 text-brand-ice shrink-0" />
             <h3 class="text-lg sm:text-xl font-semibold tracking-[-0.02em] text-white">
@@ -152,16 +152,38 @@ const featureGroups = [
             {t('bridge.desc')}
           </p>
         </div>
-        <div class="lg:col-span-5 flex flex-wrap lg:justify-end gap-2">
-          <span class="px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-mono text-white">
+        <div class="flex flex-wrap lg:justify-end gap-2 shrink-0">
+          <span class="px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-mono text-white">
             {t('bridge.badge1')}
           </span>
-          <span class="px-3 py-1.5 rounded-full bg-[#89AEFA]/20 border border-[#89AEFA]/35 text-xs font-medium text-[#CFE0FF]">
+          <span class="px-3 py-1 rounded-full bg-[#89AEFA]/20 border border-[#89AEFA]/35 text-xs font-medium text-[#CFE0FF]">
             {t('bridge.badge2')}
           </span>
-          <span class="px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-mono text-[#D5E0F5]">
+          <span class="px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-mono text-[#D5E0F5]">
             {t('bridge.badge3')}
           </span>
+          <span class="px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-[#D5E0F5]">
+            {t('bridge.badge4')}
+          </span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="rounded-xl bg-white/[0.06] border border-white/10 p-4 sm:p-5">
+          <h4 class="text-sm font-semibold text-white mb-1.5">
+            {t('bridge.wayA.title')}
+          </h4>
+          <p class="text-xs sm:text-[13px] text-[#C8D4EE] leading-relaxed">
+            {t('bridge.wayA.desc')}
+          </p>
+        </div>
+        <div class="rounded-xl bg-white/[0.06] border border-white/10 p-4 sm:p-5">
+          <h4 class="text-sm font-semibold text-white mb-1.5">
+            {t('bridge.wayB.title')}
+          </h4>
+          <p class="text-xs sm:text-[13px] text-[#C8D4EE] leading-relaxed">
+            {t('bridge.wayB.desc')}
+          </p>
         </div>
       </div>
     </div>
