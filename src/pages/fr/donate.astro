@@ -1,0 +1,128 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useTranslation } from '../../i18n/utils';
+import { config } from '../../config';
+
+const lang = 'fr';
+const t = useTranslation(lang);
+
+const cryptoColors: Record<string, string> = {
+  BTC: '#D97706',
+  SOL: '#7C3AED',
+  'USDC (ERC-20)': '#2563EB',
+};
+
+const cryptoWallets = config.donate.crypto.map((c) => ({
+  name: c.name,
+  address: c.address,
+  color: cryptoColors[c.name] || '#4B5673',
+}));
+---
+
+<BaseLayout
+  title="Soutenir MarkShelf — Dons"
+  description="Soutenez le développement de MarkShelf. Votre contribution aide à maintenir cet outil gratuit et local."
+  lang="fr"
+  currentPath="/donate/"
+>
+  <section class="py-14 sm:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header class="max-w-2xl mb-12">
+        <h1 class="text-3xl sm:text-5xl font-semibold tracking-[-0.03em] text-studio-ink mb-3">
+          {t('donate.title')}
+        </h1>
+        <p class="text-base sm:text-lg text-studio-ink-soft leading-relaxed">
+          {t('donate.subtitle')}
+        </p>
+      </header>
+
+      <div class="studio-card p-6 flex flex-col sm:flex-row sm:items-center gap-5 mb-6">
+        <div class="w-11 h-11 rounded-xl bg-[#FFF3EC] border border-[#F6D5BE] flex items-center justify-center shrink-0">
+          <Icon name="simple-icons:buymeacoffee" class="w-6 h-6 text-brand-amber" />
+        </div>
+        <div class="flex-1">
+          <h2 class="text-lg font-semibold tracking-[-0.015em] text-studio-ink mb-1">
+            {t('donate.coffee.title')}
+          </h2>
+          <p class="text-sm text-studio-ink-soft leading-relaxed">
+            {t('donate.coffee.desc')}
+          </p>
+        </div>
+        <a
+          href={config.donate.buyMeCoffee}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold shrink-0"
+        >
+          <span>{t('donate.coffee.cta')}</span>
+          <Icon name="heroicons:arrow-top-right-on-square" class="w-4 h-4" />
+        </a>
+      </div>
+
+      <div class="studio-card p-6 mb-8">
+        <div class="flex items-center gap-3 mb-5 pb-4 border-b border-studio-border">
+          <div class="w-10 h-10 rounded-xl bg-studio-bg border border-studio-border flex items-center justify-center shrink-0">
+            <Icon name="heroicons:wallet" class="w-5 h-5 text-brand-indigo" />
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold tracking-[-0.015em] text-studio-ink">
+              {t('donate.crypto.title')}
+            </h2>
+            <p class="text-sm text-studio-ink-soft">
+              {t('donate.crypto.desc')}
+            </p>
+          </div>
+        </div>
+
+        <div class="divide-y divide-studio-border border border-studio-border rounded-xl overflow-hidden">
+          {cryptoWallets.map((wallet) => (
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 px-4 py-3 bg-studio-surface-subtle">
+              <div class="flex items-center gap-2.5 shrink-0 min-w-[130px]">
+                <span class="w-2.5 h-2.5 rounded-full shrink-0" style={`background-color: ${wallet.color}`}></span>
+                <span class="text-sm font-semibold text-studio-ink">{wallet.name}</span>
+              </div>
+              <code class="text-xs text-studio-ink-soft font-mono truncate flex-1">{wallet.address}</code>
+              <button
+                type="button"
+                class="copy-btn btn-secondary shrink-0 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer self-start sm:self-auto"
+                data-address={wallet.address}
+              >
+                {t('donate.crypto.copy')}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="studio-card p-6 sm:p-7 flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[#ECFDF3] border border-[#BBF7D0] flex items-center justify-center shrink-0 mt-0.5">
+          <Icon name="heroicons:heart" class="w-5 h-5 text-brand-emerald" />
+        </div>
+        <div>
+          <h2 class="text-base font-semibold text-studio-ink mb-1">{t('donate.thanks')}</h2>
+          <p class="text-sm text-studio-ink-soft leading-relaxed max-w-2xl">
+            {t('donate.thanks.desc')}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script define:vars={{ copyLabel: t('donate.crypto.copy'), copiedLabel: t('donate.crypto.copied') }}>
+    document.querySelectorAll('.copy-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const address = btn.getAttribute('data-address');
+        if (address) {
+          await navigator.clipboard.writeText(address);
+          btn.textContent = copiedLabel;
+          btn.classList.add('text-brand-emerald', 'border-brand-emerald');
+          setTimeout(() => {
+            btn.textContent = copyLabel;
+            btn.classList.remove('text-brand-emerald', 'border-brand-emerald');
+          }, 2000);
+        }
+      });
+    });
+  </script>
+</BaseLayout>

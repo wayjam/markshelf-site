@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useTranslation, type TranslationKey } from '../../i18n/utils';
+
+const t = useTranslation('zh-tw');
+const permissions = ['bookmarks', 'storage', 'alarms', 'contextMenus', 'tabs', 'scripting', 'nativeMessaging'] as const;
+const sections = ['section1', 'section2', 'section3', 'section5', 'section6', 'section7', 'section8'] as const;
+---
+
+<BaseLayout
+  title="隱私權政策 — MarkShelf"
+  description="MarkShelf 隱私權政策。透明了解書籤、正文快照與 AI 互動的本機儲存方式。"
+  lang="zh-tw"
+  currentPath="/privacy/"
+>
+  <section class="py-14 sm:py-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header class="mb-10 pb-6 border-b border-studio-border">
+        <h1 class="text-3xl sm:text-5xl font-semibold tracking-[-0.03em] text-studio-ink mb-2">
+          {t('privacy.title')}
+        </h1>
+        <p class="font-mono text-xs text-studio-ink-muted">{t('privacy.lastUpdated')}</p>
+      </header>
+
+      <article class="studio-card p-6 sm:p-10 space-y-8 max-w-[68ch]">
+        <p class="text-base text-studio-ink leading-relaxed font-medium">
+          {t('privacy.intro')}
+        </p>
+
+        {sections.slice(0, 3).map((sec) => (
+          <section class="pt-5 border-t border-studio-border">
+            <h2 class="text-lg font-semibold tracking-[-0.015em] text-studio-ink mb-2.5">
+              {t(`privacy.${sec}.title` as TranslationKey)}
+            </h2>
+            <p class="text-sm sm:text-base text-studio-ink-soft leading-relaxed">
+              {t(`privacy.${sec}.content` as TranslationKey)}
+            </p>
+          </section>
+        ))}
+
+        <section class="pt-5 border-t border-studio-border">
+          <h2 class="text-lg font-semibold tracking-[-0.015em] text-studio-ink mb-2.5">
+            {t('privacy.section4.title')}
+          </h2>
+          <ul class="divide-y divide-studio-border border border-studio-border rounded-xl bg-studio-surface-subtle">
+            {permissions.map((perm) => (
+              <li class="px-4 py-3 text-sm text-studio-ink-soft flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+                <code class="font-mono text-xs font-semibold text-brand-cobalt bg-[#EEF3FF] px-2 py-0.5 rounded shrink-0 self-start">
+                  {perm}
+                </code>
+                <span>{t(`privacy.section4.${perm}` as TranslationKey).split(/\s*[—–-]\s*/)[1] || t(`privacy.section4.${perm}` as TranslationKey)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {sections.slice(3).map((sec) => (
+          <section class="pt-5 border-t border-studio-border">
+            <h2 class="text-lg font-semibold tracking-[-0.015em] text-studio-ink mb-2.5">
+              {t(`privacy.${sec}.title` as TranslationKey)}
+            </h2>
+            <p class="text-sm sm:text-base text-studio-ink-soft leading-relaxed">
+              {t(`privacy.${sec}.content` as TranslationKey)}
+            </p>
+          </section>
+        ))}
+      </article>
+    </div>
+  </section>
+</BaseLayout>

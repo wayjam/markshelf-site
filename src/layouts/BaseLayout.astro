@@ -20,9 +20,12 @@ const t = useTranslation(lang);
 const ogLocales: Record<Language, string> = {
   en: 'en_US',
   zh: 'zh_CN',
+  'zh-tw': 'zh_TW',
   ru: 'ru_RU',
   ja: 'ja_JP',
   de: 'de_DE',
+  es: 'es_ES',
+  fr: 'fr_FR',
 };
 ---
 
@@ -44,9 +47,12 @@ const ogLocales: Record<Language, string> = {
     <link rel="canonical" href={`${Astro.site}${base}${canonicalPath}`} />
     <link rel="alternate" hreflang="en" href={`${Astro.site}${base}${getLocalizedPath('en', currentPath)}`} />
     <link rel="alternate" hreflang="zh" href={`${Astro.site}${base}${getLocalizedPath('zh', currentPath)}`} />
+    <link rel="alternate" hreflang="zh-TW" href={`${Astro.site}${base}${getLocalizedPath('zh-tw', currentPath)}`} />
     <link rel="alternate" hreflang="ru" href={`${Astro.site}${base}${getLocalizedPath('ru', currentPath)}`} />
     <link rel="alternate" hreflang="ja" href={`${Astro.site}${base}${getLocalizedPath('ja', currentPath)}`} />
     <link rel="alternate" hreflang="de" href={`${Astro.site}${base}${getLocalizedPath('de', currentPath)}`} />
+    <link rel="alternate" hreflang="es" href={`${Astro.site}${base}${getLocalizedPath('es', currentPath)}`} />
+    <link rel="alternate" hreflang="fr" href={`${Astro.site}${base}${getLocalizedPath('fr', currentPath)}`} />
     <link rel="alternate" hreflang="x-default" href={`${Astro.site}${base}${getLocalizedPath('en', currentPath)}`} />
 
     <!-- Open Graph -->
