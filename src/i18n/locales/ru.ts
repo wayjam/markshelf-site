@@ -153,6 +153,8 @@ export const ru: typeof en = {
   // Closing CTA
   'cta.title': 'Порядок в закладках. Без облаков и подписок.',
   'cta.subtitle': 'Бесплатно и с открытым исходным кодом. Local-first, без аккаунтов.',
+  'ctaBand.title': 'Порядок в закладках. Без облаков и подписок.',
+  'ctaBand.subtitle': 'Бесплатно и с открытым исходным кодом. Local-first, без аккаунтов.',
   'cta.installNow': 'Установить MarkShelf',
   'cta.viewSource': 'Исходный код на GitHub',
   'cta.localFirstBadge': 'Local-First · Без учетной записи',

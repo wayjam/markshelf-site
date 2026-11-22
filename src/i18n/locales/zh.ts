@@ -153,6 +153,8 @@ export const zh: typeof en = {
   // Closing CTA
   'cta.title': '告别凌乱，重新掌控你的书签栏',
   'cta.subtitle': '免费开源，本地优先，无需注册任何账号。',
+  'ctaBand.title': '告别凌乱，重新掌控你的书签栏',
+  'ctaBand.subtitle': '免费开源，本地优先，无需注册任何账号。',
   'cta.installNow': '安装 MarkShelf',
   'cta.viewSource': '在 GitHub 上查看源码',
   'cta.localFirstBadge': '本地优先 · 绝无账号',

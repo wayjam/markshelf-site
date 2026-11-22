@@ -151,6 +151,8 @@ export const en = {
   // Closing CTA
   'cta.title': 'Ready to reclaim your bookmarks?',
   'cta.subtitle': 'Free, local-first, and zero account required.',
+  'ctaBand.title': 'Ready to reclaim your bookmarks?',
+  'ctaBand.subtitle': 'Free, local-first, and zero account required.',
   'cta.installNow': 'Install MarkShelf',
   'cta.viewSource': 'View on GitHub',
   'cta.localFirstBadge': 'Local-First · No Account Required',

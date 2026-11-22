@@ -153,6 +153,8 @@ export const ja: typeof en = {
   // Closing CTA
   'cta.title': 'ブックマークの主導権を取り戻す',
   'cta.subtitle': '無料・オープンソース。完全ローカル、アカウント登録不要。',
+  'ctaBand.title': 'ブックマークの主導権を取り戻す',
+  'ctaBand.subtitle': '無料・オープンソース。完全ローカル、アカウント登録不要。',
   'cta.installNow': 'MarkShelfをインストール',
   'cta.viewSource': 'GitHubでソースコードを見る',
   'cta.localFirstBadge': 'ローカルファースト · アカウント不要',

@@ -153,6 +153,8 @@ export const de: typeof en = {
   // Closing CTA
   'cta.title': 'Schluss mit dem Chaos. Volle Kontrolle über Ihre Lesezeichen.',
   'cta.subtitle': 'Kostenlos und Open Source. Local-First, ohne Registrierung.',
+  'ctaBand.title': 'Schluss mit dem Chaos. Volle Kontrolle über Ihre Lesezeichen.',
+  'ctaBand.subtitle': 'Kostenlos und Open Source. Local-First, ohne Registrierung.',
   'cta.installNow': 'MarkShelf installieren',
   'cta.viewSource': 'Quellcode auf GitHub ansehen',
   'cta.localFirstBadge': 'Local-First · Ohne Account',
