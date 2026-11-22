@@ -210,15 +210,16 @@ const sampleDiffs = lang === 'zh'
         </a>
       </div>
 
-      <p class="text-xs text-studio-ink-muted">
+      <p class="text-xs text-studio-ink-muted leading-relaxed">
         {t('hero.trust.local')} · {t('hero.trust.newtab')} · {t('hero.trust.byo')}
       </p>
     </div>
 
-    <!-- Centered Floating Interactive Workbench Window -->
-    <div class="studio-window overflow-hidden max-w-4xl mx-auto">
-      <!-- Window Header Bar -->
-      <div class="px-4 sm:px-5 py-3 bg-studio-surface-subtle border-b border-studio-border flex flex-wrap items-center justify-between gap-3">
+    <!-- Centered Floating Interactive Workbench Window (Oil Git & Sora inspired) -->
+    <div class="product-stage max-w-4xl mx-auto">
+      <div id="stage-window" class="studio-window product-breath overflow-hidden relative">
+        <!-- Window Header Bar -->
+        <div class="px-4 sm:px-5 py-3 bg-studio-surface-subtle border-b border-studio-border flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <div class="hidden sm:flex items-center gap-1.5" aria-hidden="true">
             <span class="w-2.5 h-2.5 rounded-full bg-[#E2E7F0]"></span>
@@ -252,9 +253,20 @@ const sampleDiffs = lang === 'zh'
           </div>
         </div>
 
-        <span class="font-mono text-[11px] text-studio-ink-muted">
-          {lang === 'zh' ? '示例交互台 · 本地 IndexedDB' : 'Interactive demo · Local IndexedDB'}
-        </span>
+          <!-- Sora-style live indicator -->
+          <div class="flex items-center gap-2">
+            <span class="dot-live" aria-hidden="true"></span>
+            <span class="font-mono text-[11px] text-studio-ink-soft">
+              {t('hero.engine.ready')}
+            </span>
+          </div>
+      </div>
+
+      <!-- Mobile touch swipe hint (Sora style) -->
+      <div class="sm:hidden px-4 py-1.5 bg-studio-surface-subtle border-b border-studio-border text-[11px] text-studio-ink-muted flex items-center justify-between font-mono">
+        <span>←</span>
+        <span>{t('hero.swipe.hint')}</span>
+        <span>→</span>
       </div>
 
       <!-- Panel 1: Instant Popup Search + Snapshot Excerpts -->
@@ -270,7 +282,7 @@ const sampleDiffs = lang === 'zh'
               type="search"
               placeholder={t('drawer.searchPlaceholder')}
               aria-label={t('drawer.searchPlaceholder')}
-              class="w-full pl-9 pr-3 py-1.5 rounded-lg bg-studio-surface-subtle border border-studio-border text-sm text-studio-ink placeholder:text-studio-ink-muted focus:bg-studio-surface focus:border-brand-cobalt"
+              class="w-full pl-9 pr-3 py-1.5 rounded-lg bg-studio-surface-subtle border border-studio-border text-base sm:text-sm text-studio-ink placeholder:text-studio-ink-muted focus:bg-studio-surface focus:border-brand-cobalt"
             />
           </div>
 
@@ -300,7 +312,16 @@ const sampleDiffs = lang === 'zh'
         <div id="catalog-cards-list" class="divide-y divide-studio-border">
           {sampleCards.map((card) => (
             <article
-              class="catalog-sample-card px-4 sm:px-5 py-3.5 hover:bg-studio-surface-subtle transition-colors"
+              class="catalog-sample-card px-4 sm:px-5 py-3.5 hover:bg-studio-surface-subtle transition-colors cursor-pointer"
+              tabindex="0"
+              role="button"
+              aria-label={card.title}
+              data-id={card.id}
+              data-title={card.title}
+              data-domain={card.domain}
+              data-folder={card.folder}
+              data-tags={JSON.stringify(card.tags)}
+              data-excerpt={card.excerpt}
               data-search={card.searchBlob.toLowerCase()}
             >
               <div class="flex items-start justify-between gap-3">
@@ -322,7 +343,7 @@ const sampleDiffs = lang === 'zh'
                         ? 'bg-[#ECFDF3] text-brand-emerald'
                         : card.badgeTone === 'indigo'
                           ? 'bg-[#EEF3FF] text-brand-cobalt'
-                          : 'bg-[#FFF3EC] text-brand-amber',
+                          : 'bg-[#FFF3EC] text-[#93370D]',
                     ]}
                   >
                     {card.badge}
@@ -340,12 +361,34 @@ const sampleDiffs = lang === 'zh'
           {t('drawer.empty')}
         </div>
 
-        <!-- Subtle keyboard footer -->
-        <div class="px-4 sm:px-5 py-2.5 bg-studio-surface-subtle border-t border-studio-border flex items-center justify-between text-[11px] text-studio-ink-muted">
-          <span class="tabular-nums">{lang === 'zh' ? '4 条本地快照已索引' : '4 local snapshots indexed'}</span>
-          <span class="hidden sm:inline font-mono">
-            {lang === 'zh' ? '输入关键词过滤标题与正文 · 切换右侧标签预览 Diff' : 'Type to filter title & snapshot · Switch tab for Diff review'}
-          </span>
+        <!-- Subtle keyboard footer (Minutes style) -->
+        <div class="px-4 sm:px-5 py-2.5 bg-studio-surface-subtle border-t border-studio-border flex flex-wrap items-center justify-between gap-2 text-[11px] text-studio-ink-muted">
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-emerald"></span>
+            <span class="tabular-nums font-mono">{t('hero.engine.indexed')}</span>
+          </div>
+          <div class="flex items-center gap-2 sm:gap-2.5 text-[11px]">
+            <span class="inline-flex items-center gap-1 font-mono">
+              <kbd class="px-1.5 py-0.5 rounded bg-studio-surface border border-studio-border text-studio-ink font-semibold text-[11px]">⌘ / Ctrl K</kbd>
+              <span>{t('hero.shortcuts.search')}</span>
+            </span>
+            <span class="inline-flex items-center gap-1 font-mono">
+              <kbd class="px-1.5 py-0.5 rounded bg-studio-surface border border-studio-border text-studio-ink font-semibold text-[11px]">↑ ↓</kbd>
+              <span>{t('hero.shortcuts.navigate')}</span>
+            </span>
+            <span class="inline-flex items-center gap-1 font-mono">
+              <kbd class="px-1.5 py-0.5 rounded bg-studio-surface border border-studio-border text-studio-ink font-semibold text-[11px]">Enter</kbd>
+              <span>{t('hero.shortcuts.preview')}</span>
+            </span>
+            <span class="hidden sm:inline-flex items-center gap-1 font-mono">
+              <kbd class="px-1.5 py-0.5 rounded bg-studio-surface border border-studio-border text-studio-ink font-semibold text-[11px]">Tab</kbd>
+              <span>{t('hero.shortcuts.diff')}</span>
+            </span>
+            <span class="hidden sm:inline-flex items-center gap-1 font-mono">
+              <kbd class="px-1.5 py-0.5 rounded bg-studio-surface border border-studio-border text-studio-ink font-semibold text-[11px]">Esc</kbd>
+              <span>{t('hero.shortcuts.clear')}</span>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -375,7 +418,7 @@ const sampleDiffs = lang === 'zh'
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between gap-2 mb-1.5">
                   <span class="text-sm font-medium text-studio-ink truncate">{item.title}</span>
-                  <span class="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#FFF3EC] text-brand-amber shrink-0">
+                  <span class="px-2 py-0.5 rounded-full text-[11px] font-mono bg-[#FFF3EC] text-[#93370D] shrink-0">
                     {item.addedTag}
                   </span>
                 </div>
@@ -409,19 +452,139 @@ const sampleDiffs = lang === 'zh'
           </button>
         </div>
       </div>
+
+        <!-- Snapshot Inspector Modal Drawer -->
+        <div
+          id="snapshot-drawer"
+          class="hidden absolute inset-0 z-30 bg-studio-surface flex flex-col justify-between overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="drawer-card-title"
+        >
+          <div class="p-5 sm:p-6">
+            <div class="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-studio-border">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+                <span class="font-mono text-xs text-brand-emerald font-semibold uppercase tracking-wider">
+                  {t('hero.drawer.captured')}
+                </span>
+                <span class="text-xs text-studio-ink-muted">·</span>
+                <span id="drawer-card-domain" class="font-mono text-xs text-studio-ink-muted"></span>
+              </div>
+              <button
+                type="button"
+                id="drawer-close-btn"
+                class="px-2.5 py-1 rounded-lg border border-studio-border bg-studio-surface-subtle hover:bg-studio-bg text-studio-ink text-xs font-mono font-medium flex items-center gap-1 cursor-pointer transition-colors"
+                aria-label={t('hero.drawer.close')}
+              >
+                <span>Esc</span>
+                <span class="text-studio-ink-muted">{t('hero.drawer.close')}</span>
+              </button>
+            </div>
+
+            <h3 id="drawer-card-title" class="text-lg sm:text-xl font-semibold tracking-[-0.02em] text-studio-ink mb-2.5"></h3>
+            
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+              <span id="drawer-card-folder" class="font-mono text-xs text-studio-ink-muted bg-studio-surface-subtle px-2.5 py-1 rounded-md border border-studio-border"></span>
+              <div id="drawer-card-tags" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <div class="rounded-xl border border-studio-border bg-studio-surface-subtle p-4 mb-4">
+              <div class="text-[11px] font-mono text-studio-ink-muted uppercase tracking-wider mb-2 font-semibold">
+                {t('hero.drawer.raw')}
+              </div>
+              <p id="drawer-card-excerpt" class="text-xs sm:text-[13px] text-studio-ink-soft leading-relaxed"></p>
+            </div>
+
+            <div class="rounded-xl bg-[#11182C] text-white p-3.5 border border-[#222F50] font-mono text-xs flex flex-col gap-1.5">
+              <div class="flex items-center justify-between text-[11px] text-[#89AEFA]">
+                <span class="font-semibold uppercase tracking-wider">{t('hero.drawer.mcp')}</span>
+                <span class="text-[#849AC5]">read_resource</span>
+              </div>
+              <code id="drawer-card-mcp" class="text-[#E0ECFF] overflow-x-auto py-0.5"></code>
+            </div>
+          </div>
+
+          <div class="px-5 py-3 bg-studio-surface-subtle border-t border-studio-border flex items-center justify-between text-xs text-studio-ink-muted">
+            <span class="font-mono text-[11px]">IndexedDB: markshelf_snapshots_v1</span>
+            <button
+              type="button"
+              id="drawer-footer-close"
+              class="btn-secondary px-3.5 py-1 rounded-full text-xs font-medium cursor-pointer"
+            >
+              {t('hero.drawer.close')}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three Hardcore Technical Metrics (Oil Git & Oil Find style) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12 pt-8 border-t border-studio-border">
+      <div class="flex flex-col">
+        <div class="flex items-baseline gap-2 mb-1">
+          <span class="font-mono text-2xl sm:text-3xl font-semibold tracking-tight text-studio-ink tabular-nums">
+            {t('hero.metrics.num1')}
+          </span>
+          <span class="font-mono text-xs font-semibold text-brand-emerald tracking-wide">
+            [OFFLINE]
+          </span>
+        </div>
+        <h3 class="text-sm font-semibold text-studio-ink mb-1">
+          {t('hero.metrics.label1')}
+        </h3>
+        <p class="text-xs sm:text-[13px] text-studio-ink-soft leading-relaxed">
+          {t('hero.metrics.desc1')}
+        </p>
+      </div>
+
+      <div class="flex flex-col">
+        <div class="flex items-baseline gap-2 mb-1">
+          <span class="font-mono text-2xl sm:text-3xl font-semibold tracking-tight text-studio-ink tabular-nums">
+            {t('hero.metrics.num2')}
+          </span>
+          <span class="font-mono text-xs font-semibold text-brand-cobalt tracking-wide">
+            [INSTANT]
+          </span>
+        </div>
+        <h3 class="text-sm font-semibold text-studio-ink mb-1">
+          {t('hero.metrics.label2')}
+        </h3>
+        <p class="text-xs sm:text-[13px] text-studio-ink-soft leading-relaxed">
+          {t('hero.metrics.desc2')}
+        </p>
+      </div>
+
+      <div class="flex flex-col">
+        <div class="flex items-baseline gap-2 mb-1">
+          <span class="font-mono text-2xl sm:text-3xl font-semibold tracking-tight text-studio-ink tabular-nums">
+            {t('hero.metrics.num3')}
+          </span>
+          <span class="font-mono text-xs font-semibold text-brand-amber tracking-wide">
+            [REVERSIBLE]
+          </span>
+        </div>
+        <h3 class="text-sm font-semibold text-studio-ink mb-1">
+          {t('hero.metrics.label3')}
+        </h3>
+        <p class="text-xs sm:text-[13px] text-studio-ink-soft leading-relaxed">
+          {t('hero.metrics.desc3')}
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
-<script define:vars={{ lang }}>
+<script define:vars={{ lang, approveTemplate: t('drawer.diffApprove') }}>
   const tabBtns = document.querySelectorAll('.drawer-tab');
   const searchPanel = document.getElementById('panel-search');
   const diffPanel = document.getElementById('panel-diff');
 
   function activateTab(target) {
+    closeCardDrawer();
     tabBtns.forEach((btn) => {
       const isMatch = btn.getAttribute('data-tab') === target;
-      btn.setAttribute('aria-selected', String(isMatch));
+      btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
       btn.classList.toggle('is-active', isMatch);
       btn.classList.toggle('font-semibold', isMatch);
       btn.classList.toggle('text-studio-ink-soft', !isMatch);
@@ -441,6 +604,116 @@ const sampleDiffs = lang === 'zh'
   const emptyState = document.getElementById('catalog-empty-state');
   const cardsList = document.getElementById('catalog-cards-list');
   const quickChips = document.querySelectorAll('.quick-chip');
+  const stageWindow = document.getElementById('stage-window');
+  const snapshotDrawer = document.getElementById('snapshot-drawer');
+  const drawerCloseBtn = document.getElementById('drawer-close-btn');
+  const drawerFooterClose = document.getElementById('drawer-footer-close');
+  const drawerTitle = document.getElementById('drawer-card-title');
+  const drawerDomain = document.getElementById('drawer-card-domain');
+  const drawerFolder = document.getElementById('drawer-card-folder');
+  const drawerExcerpt = document.getElementById('drawer-card-excerpt');
+  const drawerTags = document.getElementById('drawer-card-tags');
+  const drawerMcp = document.getElementById('drawer-card-mcp');
+
+  let selectedIdx = -1;
+
+  function getVisibleCards() {
+    return Array.from(cards).filter((c) => !c.classList.contains('hidden'));
+  }
+
+  function updateSelectedCard(newIndex) {
+    const visibleCards = getVisibleCards();
+    if (visibleCards.length === 0) {
+      selectedIdx = -1;
+      return;
+    }
+    cards.forEach((c) => c.classList.remove('is-selected'));
+    if (newIndex < 0) newIndex = 0;
+    if (newIndex >= visibleCards.length) newIndex = visibleCards.length - 1;
+    selectedIdx = newIndex;
+    const target = visibleCards[selectedIdx];
+    if (target) {
+      target.classList.add('is-selected');
+      target.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  function openCardDrawer(cardEl) {
+    if (!cardEl || !snapshotDrawer) return;
+    const title = cardEl.getAttribute('data-orig-title') || cardEl.querySelector('h2')?.textContent || '';
+    const domain = cardEl.getAttribute('data-domain') || '';
+    const folder = cardEl.getAttribute('data-folder') || '';
+    const excerpt = cardEl.getAttribute('data-orig-excerpt') || cardEl.querySelector('p')?.textContent || '';
+    let tags = [];
+    try {
+      tags = JSON.parse(cardEl.getAttribute('data-tags') || '[]');
+    } catch (_) {}
+
+    if (drawerTitle) drawerTitle.textContent = title;
+    if (drawerDomain) drawerDomain.textContent = domain;
+    if (drawerFolder) drawerFolder.textContent = folder;
+    if (drawerExcerpt) drawerExcerpt.textContent = excerpt;
+    if (drawerTags) {
+      drawerTags.innerHTML = tags
+        .map(
+          (t) =>
+            `<span class="px-2 py-0.5 rounded-full text-[11px] font-mono bg-studio-bg border border-studio-border text-studio-ink-soft">#${t}</span>`
+        )
+        .join('');
+    }
+    if (drawerMcp) {
+      drawerMcp.textContent = `markshelf get --uri "markshelf://snapshot/${domain}" --format markdown`;
+    }
+
+    snapshotDrawer.classList.remove('hidden');
+    drawerCloseBtn?.focus();
+  }
+
+  function closeCardDrawer() {
+    if (!snapshotDrawer || snapshotDrawer.classList.contains('hidden')) return;
+    snapshotDrawer.classList.add('hidden');
+    const visibleCards = getVisibleCards();
+    if (selectedIdx >= 0 && visibleCards[selectedIdx]) {
+      visibleCards[selectedIdx].focus();
+    } else {
+      searchInput?.focus();
+    }
+  }
+
+  drawerCloseBtn?.addEventListener('click', closeCardDrawer);
+  drawerFooterClose?.addEventListener('click', closeCardDrawer);
+
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      const vCards = getVisibleCards();
+      updateSelectedCard(vCards.indexOf(card));
+      openCardDrawer(card);
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        openCardDrawer(card);
+      }
+    });
+  });
+
+  // Store initial unhighlighted content
+  cards.forEach((card) => {
+    const titleEl = card.querySelector('h2');
+    const descEl = card.querySelector('p');
+    if (titleEl) card.setAttribute('data-orig-title', titleEl.textContent || '');
+    if (descEl) card.setAttribute('data-orig-excerpt', descEl.textContent || '');
+  });
+
+  function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function highlightMatch(text, query) {
+    if (!query) return text;
+    const pattern = new RegExp(`(${escapeRegex(query)})`, 'gi');
+    return text.replace(pattern, '<mark>$1</mark>');
+  }
 
   function filterCards(rawQuery) {
     const q = (rawQuery || '').trim().toLowerCase().replace(/^#/, '');
@@ -450,7 +723,20 @@ const sampleDiffs = lang === 'zh'
       const blob = card.getAttribute('data-search') || '';
       const matched = !q || blob.includes(q);
       card.classList.toggle('hidden', !matched);
-      if (matched) visibleCount++;
+      if (matched) {
+        visibleCount++;
+        const titleEl = card.querySelector('h2');
+        const descEl = card.querySelector('p');
+        const origTitle = card.getAttribute('data-orig-title') || '';
+        const origExcerpt = card.getAttribute('data-orig-excerpt') || '';
+        if (q) {
+          if (titleEl) titleEl.innerHTML = highlightMatch(origTitle, q);
+          if (descEl) descEl.innerHTML = highlightMatch(origExcerpt, q);
+        } else {
+          if (titleEl) titleEl.textContent = origTitle;
+          if (descEl) descEl.textContent = origExcerpt;
+        }
+      }
     });
 
     cardsList?.classList.toggle('hidden', visibleCount === 0);
@@ -464,6 +750,13 @@ const sampleDiffs = lang === 'zh'
       chip.classList.toggle('bg-studio-bg', !active);
       chip.classList.toggle('text-studio-ink-soft', !active);
     });
+    cardsList?.classList.toggle('hidden', visibleCount === 0);
+    emptyState?.classList.toggle('hidden', visibleCount > 0);
+
+    selectedIdx = -1;
+    if (visibleCount > 0) {
+      updateSelectedCard(0);
+    }
   }
 
   searchInput?.addEventListener('input', (e) => {
@@ -478,6 +771,78 @@ const sampleDiffs = lang === 'zh'
     });
   });
 
+  // Minutes-style Keyboard shortcuts & Selection Navigation
+  window.addEventListener('keydown', (e) => {
+    const isSearchActive = !searchPanel?.classList.contains('hidden');
+    const isDrawerOpen = snapshotDrawer && !snapshotDrawer.classList.contains('hidden');
+
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      closeCardDrawer();
+      activateTab('search');
+      searchInput?.focus();
+    } else if (e.key === 'Escape') {
+      if (isDrawerOpen) {
+        e.preventDefault();
+        closeCardDrawer();
+      } else if (document.activeElement === searchInput) {
+        if (searchInput.value) {
+          searchInput.value = '';
+          filterCards('');
+        } else {
+          searchInput.blur();
+        }
+      }
+    } else if (e.key === 'ArrowDown') {
+      if (isSearchActive && !isDrawerOpen) {
+        e.preventDefault();
+        updateSelectedCard(selectedIdx + 1);
+      }
+    } else if (e.key === 'ArrowUp') {
+      if (isSearchActive && !isDrawerOpen) {
+        e.preventDefault();
+        updateSelectedCard(selectedIdx - 1);
+      }
+    } else if (e.key === 'Enter' && document.activeElement !== searchInput) {
+      if (isSearchActive && !isDrawerOpen) {
+        const visible = getVisibleCards();
+        if (selectedIdx >= 0 && visible[selectedIdx]) {
+          e.preventDefault();
+          openCardDrawer(visible[selectedIdx]);
+        }
+      }
+    }
+  });
+
+  // Mobile Touch Swipe Handling (Sora style)
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  stageWindow?.addEventListener(
+    'touchstart',
+    (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    },
+    { passive: true }
+  );
+
+  stageWindow?.addEventListener(
+    'touchend',
+    (e) => {
+      const dx = e.changedTouches[0].screenX - touchStartX;
+      const dy = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) {
+          activateTab('diff');
+        } else {
+          activateTab('search');
+        }
+      }
+    },
+    { passive: true }
+  );
+
   const checkboxes = document.querySelectorAll('.diff-checkbox');
   const approveBtn = document.getElementById('diff-approve-btn');
   const undoBtn = document.getElementById('diff-undo-btn');
@@ -486,7 +851,7 @@ const sampleDiffs = lang === 'zh'
   function updateApproveCount() {
     if (!approveBtn) return;
     const count = Array.from(checkboxes).filter((cb) => cb.checked).length;
-    approveBtn.textContent = lang === 'zh' ? `确认应用 (${count})` : `Approve & apply (${count})`;
+    approveBtn.textContent = approveTemplate.replace(/\d+/, String(count));
     approveBtn.toggleAttribute('disabled', count === 0);
     approveBtn.classList.toggle('opacity-50', count === 0);
   }

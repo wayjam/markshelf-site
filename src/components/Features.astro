@@ -12,25 +12,27 @@ const t = useTranslation(lang);
 
 const workflowPillars = [
   {
+    num: '01',
     icon: 'heroicons:magnifying-glass-circle',
     title: t('workflow.1.title'),
     desc: t('workflow.1.desc'),
     meta: t('workflow.1.meta'),
   },
   {
+    num: '02',
     icon: 'heroicons:document-text',
     title: t('workflow.2.title'),
     desc: t('workflow.2.desc'),
     meta: t('workflow.2.meta'),
   },
   {
+    num: '03',
     icon: 'heroicons:arrows-right-left',
     title: t('workflow.3.title'),
     desc: t('workflow.3.desc'),
     meta: t('workflow.3.meta'),
   },
 ];
-
 const featureGroups = [
   {
     groupTitle: t('features.group.find'),
@@ -76,10 +78,13 @@ const featureGroups = [
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {workflowPillars.map((pillar) => (
-        <div class="p-6 rounded-2xl bg-studio-surface-subtle border border-studio-border flex flex-col justify-between">
+        <div class="p-6 rounded-2xl bg-studio-surface-subtle border border-studio-border flex flex-col justify-between hover:border-studio-border-strong transition-colors">
           <div>
-            <div class="w-10 h-10 rounded-xl bg-studio-surface border border-studio-border flex items-center justify-center mb-5 shadow-2xs">
-              <Icon name={pillar.icon} class="w-5 h-5 text-brand-indigo" />
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-10 h-10 rounded-xl bg-studio-surface border border-studio-border flex items-center justify-center shadow-2xs">
+                <Icon name={pillar.icon} class="w-5 h-5 text-brand-indigo" />
+              </div>
+              <span class="font-mono text-xs font-semibold text-studio-ink-muted">{pillar.num}</span>
             </div>
             <h3 class="text-lg font-semibold tracking-[-0.02em] text-studio-ink leading-snug mb-2.5">
               {pillar.title}
@@ -169,23 +174,34 @@ const featureGroups = [
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="rounded-xl bg-white/[0.06] border border-white/10 p-4 sm:p-5">
-          <h4 class="text-sm font-semibold text-white mb-1.5">
-            {t('bridge.wayA.title')}
-          </h4>
-          <p class="text-xs sm:text-[13px] text-[#C8D4EE] leading-relaxed">
-            {t('bridge.wayA.desc')}
-          </p>
+        <div class="rounded-xl bg-white/[0.06] border border-white/10 p-4 sm:p-5 flex flex-col justify-between">
+          <div>
+            <h4 class="text-sm font-semibold text-white mb-1.5">
+              {t('bridge.wayA.title')}
+            </h4>
+            <p class="text-xs sm:text-[13px] text-[#C8D4EE] leading-relaxed mb-3">
+              {t('bridge.wayA.desc')}
+            </p>
+          </div>
+          <div class="px-3 py-2 rounded-lg bg-black/40 border border-white/10 font-mono text-[11px] text-[#A5C0EE] flex items-center justify-between gap-2 overflow-x-auto">
+            <code>npx @markshelf/companion serve --mcp</code>
+            <span class="text-[11px] uppercase text-[#89AEFA] shrink-0 font-sans font-medium">Stdio MCP</span>
+          </div>
         </div>
-        <div class="rounded-xl bg-white/[0.06] border border-white/10 p-4 sm:p-5">
-          <h4 class="text-sm font-semibold text-white mb-1.5">
-            {t('bridge.wayB.title')}
-          </h4>
-          <p class="text-xs sm:text-[13px] text-[#C8D4EE] leading-relaxed">
-            {t('bridge.wayB.desc')}
-          </p>
+        <div class="rounded-xl bg-white/[0.06] border border-white/10 p-4 sm:p-5 flex flex-col justify-between">
+          <div>
+            <h4 class="text-sm font-semibold text-white mb-1.5">
+              {t('bridge.wayB.title')}
+            </h4>
+            <p class="text-xs sm:text-[13px] text-[#C8D4EE] leading-relaxed mb-3">
+              {t('bridge.wayB.desc')}
+            </p>
+          </div>
+          <div class="px-3 py-2 rounded-lg bg-black/40 border border-white/10 font-mono text-[11px] text-[#A5C0EE] flex items-center justify-between gap-2 overflow-x-auto">
+            <code>npx @markshelf/companion detect</code>
+            <span class="text-[11px] uppercase text-[#89AEFA] shrink-0 font-sans font-medium">CLI Bridge</span>
+          </div>
         </div>
-      </div>
     </div>
   </div>
 </section>

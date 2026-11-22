@@ -19,12 +19,12 @@ const { lang } = Astro.props;
 const t = useTranslation(lang);
 
 const screenshots = [
-  { id: 'home', src: homeImg, tab: lang === 'zh' ? '书架视图' : 'Shelf', caption: t('screenshots.home') },
-  { id: 'organize', src: organizeImg, tab: lang === 'zh' ? 'Diff 整理' : 'Diff Review', caption: t('screenshots.organize') },
-  { id: 'healthcheck', src: healthcheckImg, tab: lang === 'zh' ? '健康检查' : 'Health Check', caption: t('screenshots.healthcheck') },
-  { id: 'export', src: exportImg, tab: lang === 'zh' ? '备份导出' : 'Backup', caption: t('screenshots.export') },
-  { id: 'provider', src: settingsProviderImg, tab: lang === 'zh' ? 'AI 服务商' : 'Providers', caption: t('screenshots.settings-provider') },
-  { id: 'skills', src: settingsSkillsImg, tab: lang === 'zh' ? '提示词技能' : 'Skills', caption: t('screenshots.settings-skills') },
+  { id: 'home', src: homeImg, tab: t('screenshots.tab.home'), caption: t('screenshots.home') },
+  { id: 'organize', src: organizeImg, tab: t('screenshots.tab.organize'), caption: t('screenshots.organize') },
+  { id: 'healthcheck', src: healthcheckImg, tab: t('screenshots.tab.healthcheck'), caption: t('screenshots.healthcheck') },
+  { id: 'export', src: exportImg, tab: t('screenshots.tab.export'), caption: t('screenshots.export') },
+  { id: 'provider', src: settingsProviderImg, tab: t('screenshots.tab.provider'), caption: t('screenshots.settings-provider') },
+  { id: 'skills', src: settingsSkillsImg, tab: t('screenshots.tab.skills'), caption: t('screenshots.settings-skills') },
 ];
 ---
 
@@ -97,7 +97,7 @@ const screenshots = [
             id="prev-btn"
             type="button"
             class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
-            aria-label={lang === 'zh' ? '上一张截图' : 'Previous screenshot'}
+            aria-label={t('screenshots.prev')}
           >
             <Icon name="heroicons:chevron-left" class="w-4 h-4" />
           </button>
@@ -105,7 +105,7 @@ const screenshots = [
             id="next-btn"
             type="button"
             class="btn-secondary w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
-            aria-label={lang === 'zh' ? '下一张截图' : 'Next screenshot'}
+            aria-label={t('screenshots.next')}
           >
             <Icon name="heroicons:chevron-right" class="w-4 h-4" />
           </button>
@@ -120,7 +120,7 @@ const screenshots = [
       id="lightbox-close"
       type="button"
       class="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 flex items-center justify-center cursor-pointer transition-colors"
-      aria-label={lang === 'zh' ? '关闭预览' : 'Close preview'}
+      aria-label={t('screenshots.close')}
     >
       <Icon name="heroicons:x-mark" class="w-5 h-5" />
     </button>

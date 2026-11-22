@@ -9,7 +9,7 @@ export default defineConfig({
   output: 'static',
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'zh'],
+    locales: ['en', 'zh', 'ru', 'ja', 'de'],
     routing: {
       prefixDefaultLocale: true,
       redirectToDefaultLocale: false,
